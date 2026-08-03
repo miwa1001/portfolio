@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人簡介 | 雙語後勤與業務支援人才</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans TC & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#fdfbf7',
+                            100: '#f7f4ed',
+                            200: '#efe9dd',
+                            300: '#e1d5c2',
+                        },
+                        stone: {
+                            850: '#211f1d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f7f4ed;
+            color: #211f1d;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .glass-card {
+            background: rgba(253, 251, 247, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(225, 213, 194, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-amber-200 selection:text-stone-900">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-card transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-lg font-bold tracking-tight text-stone-800 hover:opacity-80 transition-opacity">
+                Portfolio<span class="text-amber-700">.</span>
+            </a>
+            <nav class="hidden sm:flex items-center space-x-6 text-sm font-medium text-stone-600">
+                <a href="#about" class="hover:text-amber-800 transition-colors">關於我</a>
+                <a href="#skills" class="hover:text-amber-800 transition-colors">核心技能</a>
+                <a href="#certifications" class="hover:text-amber-800 transition-colors">專業證照</a>
+                <a href="#contact" class="hover:text-amber-800 transition-colors">聯絡方式</a>
+            </nav>
+            <a href="#contact" class="text-xs sm:text-sm font-medium bg-stone-800 text-cream-50 px-4 py-2 rounded-full hover:bg-stone-700 transition-all shadow-sm">
+                立即聯絡
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-6 py-8 sm:py-12 space-y-16">
+
+        <!-- Hero Section: Single-sentence positioning & Avatar -->
+        <section class="pt-4 sm:pt-8 text-center sm:text-left flex flex-col sm:flex-row items-center gap-8">
+            <div class="relative group">
+                <img src="https://miwa1001.github.io/portfolio/icinamon.png" alt="個人頭像" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-amber-300 shadow-md">
+                <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 border-2 border-cream-50 rounded-full" title="即戰力準備中"></span>
+            </div>
+            <div class="flex-1 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 text-xs font-semibold tracking-wide">
+                    <i class="fa-solid fa-location-dot"></i> 具備 1.6 年日本在地實務經驗
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-stone-900 leading-tight">
+                    雙語後勤與業務支援人才
+                </h1>
+                <p class="text-stone-600 text-base sm:text-lg font-normal leading-relaxed">
+                    「運用日文實務對接與高壓多工調度能力，成為日商與跨國團隊最穩定可靠的營運後盾。」
+                </p>
+                <div class="pt-2 flex flex-wrap justify-center sm:justify-start gap-3">
+                    <a href="#contact" class="inline-flex items-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-amber-800 transition-all shadow-sm">
+                        <i class="fa-regular fa-envelope"></i> 預約面談
+                    </a>
+                    <a href="#certifications" class="inline-flex items-center gap-2 bg-cream-50 text-stone-700 border border-cream-300 px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-cream-200 transition-all">
+                        <i class="fa-solid fa-award"></i> 檢視證照
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="space-y-6 scroll-mt-24">
+            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
+                    <i class="fa-regular fa-id-card text-amber-700"></i> 關於我與實務經驗
+                </h2>
+                <span class="text-xs text-stone-500 font-mono">ABOUT ME & EXPERIENCE</span>
+            </div>
+            
+            <div class="bg-cream-50 p-6 sm:p-8 rounded-2xl border border-cream-200 shadow-sm space-y-6">
+                <p class="text-stone-700 leading-relaxed text-base">
+                    本人具備 <strong class="text-amber-900 font-semibold">1.6 年日本在地工作實績</strong>，熟悉日文商業書信溝通、內部通訊軟體對接與跨文化協調。過往在大流量、高節奏的營運環境中，累積了「多工資源調度、流程拆解（OJT）、風險預警」的核心優勢。
+                </p>
+                
+                <!-- 3 Integrated Detailed Achievements -->
+                <div class="space-y-3 pt-1">
+                    <h3 class="text-xs font-bold tracking-wider text-amber-900 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> 核心實務經驗與戰績
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Item 1 -->
+                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
+                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                                <i class="fa-solid fa-chart-line"></i> 高載量資源調配
+                            </div>
+                            <h4 class="font-bold text-stone-900 text-xs">400人次/日 營運調度</h4>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                在日本高峰營運期間（單日 400 人次/45 桌），透過優先順序管理（Priority Management）預判供需，達成關鍵項目零空盤、尖峰作業零中斷。
+                            </p>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
+                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                                <i class="fa-solid fa-users-gear"></i> 跨國 OJT 培訓傳承
+                            </div>
+                            <h4 class="font-bold text-stone-900 text-xs">OJT 標準化培訓手冊</h4>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                擔任外籍同仁專屬 OJT 導師，將複雜模組作業拆解為圖解 SOP 步驟，成功降低溝通成本，縮短新人獨立上線時程至 2~3 週。
+                            </p>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
+                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                                <i class="fa-solid fa-shield-halved"></i> 跨文化行政與合規
+                            </div>
+                            <h4 class="font-bold text-stone-900 text-xs">雙語行政與安全控管</h4>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                熟練對接日文商業信件與內部通訊（Slack/Teams）；保持高度細敏度，曾主動識別並成功攔截未授權人員進入管制區，確保營運合規。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-amber-50/80 rounded-xl border border-amber-200/80 text-xs sm:text-sm text-stone-700">
+                    <strong class="text-amber-900">未來展望：</strong> 憑藉日文對接、流程拆解與現場溝通實力，我能迅速對接貴司 SOP 及 Office 規範，細心分擔團隊後勤負擔，創造最高效的運作體驗。
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Core Skills Section -->
+        <!-- 3 Core Skills Section -->
+        <section id="skills" class="space-y-6 scroll-mt-24">
+            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-amber-700"></i> 核心技能
+                </h2>
+                <span class="text-xs text-stone-500 font-mono">3 CORE SKILLS</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Skill 1 -->
+                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-900">1. 日中雙語商務溝通</h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        精準撰寫日文基礎商業信件、熟練使用內部通訊（Slack/Teams/Line），具備良好跨文化溝通與對接能力。
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-1.5">
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">商務信件</span>
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">跨文化對接</span>
+                    </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
+                        <i class="fa-solid fa-list-ol"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-900">2. 多工調度與進度控管</h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        擅長多線任務優先順序調配（Priority Management），能精準追蹤訂單、廠商與專案進度，確保後勤流暢。
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-1.5">
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">多工處理</span>
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">進度追蹤</span>
+                    </div>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-900">3. SOP 流程拆解與 OJT</h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        能將複雜工作流程歸納拆解為圖解與標準作業流程（SOP），有效進行跨國同仁培訓與傳承。
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-1.5">
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">SOP 製作</span>
+                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">內部培訓</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="space-y-6 scroll-mt-24">
+            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
+                    <i class="fa-solid fa-certificate text-amber-700"></i> 專業證照與檢定
+                </h2>
+                <span class="text-xs text-stone-500 font-mono">3 CERTIFICATIONS</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Cert 1 -->
+                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-200">
+                                語言能力檢定
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 01</span>
+                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                                日本語能力試驗 (JLPT)
+                            </h3>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            日語能力官方認證預留區，具備流暢閱讀、商業書信對接與跨文化溝通實務能力。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
+                        <span>狀態：資料待填入</span>
+                        <button onclick="showModal('日本語能力試驗 (JLPT)', '【證照預留區】可在此填寫您的 JLPT 級別（如 N1 / N2）、發照年份、分數表現，或附加證照掃描檔連結。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                            檢視細節
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cert 2 -->
+                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="bg-amber-100 text-amber-900 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
+                                行政/電腦檢定
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 02</span>
+                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                                商務行政與技能認證
+                            </h3>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            預留放 MS Office 應用認證、BJT 商務日語能力考試或行政文書相關檢定。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
+                        <span>狀態：資料待填入</span>
+                        <button onclick="showModal('商務行政與技能認證', '【證照預留區】可在此填寫您的行政文書能力認證、BJT 檢定成績或相關電腦技能證照。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                            檢視細節
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cert 3 -->
+                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                            <span class="bg-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-full">
+                                彈性擴充區
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 03</span>
+                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                                專業檢定 / 培訓證書
+                            </h3>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            彈性擴充預留區，可用於呈現職場安全培訓、專案管理或跨國研修證明。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
+                        <span>狀態：資料待填入</span>
+                        <button onclick="showModal('專業檢定 / 培訓證書', '【證照預留區】隨時可依據您最新的檢定資格或結業證書進行填補與更新。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                            檢視細節
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-6 scroll-mt-24">
+            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
+                    <i class="fa-regular fa-paper-plane text-amber-700"></i> 聯絡方式
+                </h2>
+                <span class="text-xs text-stone-500 font-mono">CONTACT</span>
+            </div>
+
+            <div class="bg-stone-900 text-cream-50 p-6 sm:p-8 rounded-2xl shadow-lg space-y-6">
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-amber-200">期待與貴公司展開合作</h3>
+                    <p class="text-xs sm:text-sm text-stone-300">
+                        若您正在尋找具備日語經驗、條理清晰與嚴謹後勤執行的行政/業務助理，歡迎隨時聯繫！
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <!-- Email Copy -->
+                    <div class="flex items-center justify-between p-3.5 bg-stone-800/80 rounded-xl border border-stone-700">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center text-amber-400">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-stone-400">電子信箱</div>
+                                <div id="emailText" class="text-xs sm:text-sm font-mono font-medium">your.email@example.com</div>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('your.email@example.com')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-stone-700 rounded-lg transition-colors">
+                            複製
+                        </button>
+                    </div>
+
+                    <!-- Phone Copy -->
+                    <div class="flex items-center justify-between p-3.5 bg-stone-800/80 rounded-xl border border-stone-700">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center text-amber-400">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-stone-400">聯絡電話</div>
+                                <div id="phoneText" class="text-xs sm:text-sm font-mono font-medium">+886 912-345-678</div>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('+886 912-345-678')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-stone-700 rounded-lg transition-colors">
+                            複製
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-400">
+                    <div class="flex items-center gap-4">
+                        <span class="hover:text-amber-200 transition-colors"><i class="fa-brands fa-linkedin"></i> LinkedIn 檔案</span>
+                        <span class="hover:text-amber-200 transition-colors"><i class="fa-solid fa-globe"></i> 台北 / 桃園 / 遠端可訊</span>
+                    </div>
+                    <div id="toast" class="text-amber-300 text-xs hidden">已複製到剪貼簿！</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Dialog for Projects -->
+    <div id="projectModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cream-50 rounded-2xl max-w-md w-full p-6 border border-cream-300 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-cream-200 pb-3">
+                <h3 id="modalTitle" class="font-bold text-stone-900 text-lg">專案標題</h3>
+                <button onclick="closeModal()" class="text-stone-400 hover:text-stone-700 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p id="modalContent" class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                專案詳細說明內容...
+            </p>
+            <div class="pt-3 text-right">
+                <button onclick="closeModal()" class="px-4 py-2 bg-stone-800 text-cream-50 text-xs font-semibold rounded-xl hover:bg-stone-700">
+                    關閉視窗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-cream-300 bg-cream-100/50 py-6 text-center text-xs text-stone-500">
+        <p>© 2026 個人簡介單頁網頁. All rights reserved.</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
+
+        function showModal(title, content) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerText = content;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
