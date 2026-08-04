@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人簡介 | 雙語後勤與業務支援人才</title>
+    <title>郭庭瑋 | 個人履歷網站</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Noto Sans TC & Inter -->
+    <!-- Google Fonts: Inter & Noto Sans TC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -18,14 +18,19 @@
             theme: {
                 extend: {
                     colors: {
-                        cream: {
+                        warm: {
                             50: '#fdfbf7',
-                            100: '#f7f4ed',
-                            200: '#efe9dd',
-                            300: '#e1d5c2',
+                            100: '#f7f3eb',
+                            200: '#efe7da',
+                            300: '#e1d3be',
+                            400: '#cbb698',
+                            800: '#534335',
+                            900: '#2c221a',
                         },
-                        stone: {
-                            850: '#211f1d',
+                        amberBrand: {
+                            500: '#d97706',
+                            600: '#b45309',
+                            700: '#92400e',
                         }
                     },
                     fontFamily: {
@@ -37,298 +42,473 @@
     </script>
     <style>
         body {
-            background-color: #f7f4ed;
-            color: #211f1d;
+            background-color: #f7f3eb;
+            color: #2c221a;
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
         }
-        .glass-card {
-            background: rgba(253, 251, 247, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(225, 213, 194, 0.5);
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(225, 211, 190, 0.5);
+        }
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(83, 67, 53, 0.08), 0 8px 10px -6px rgba(83, 67, 53, 0.04);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-amber-200 selection:text-stone-900">
 
     <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 glass-card transition-all duration-300">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="text-lg font-bold tracking-tight text-stone-800 hover:opacity-80 transition-opacity">
-                Portfolio<span class="text-amber-700">.</span>
+    <header class="sticky top-0 z-50 glass-nav shadow-sm">
+        <div class="max-w-4xl mx-auto px-6 py-3.5 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-tight text-warm-900 hover:opacity-80 transition-opacity">
+                郭庭瑋<span class="text-amberBrand-600">.</span>
             </a>
-            <nav class="hidden sm:flex items-center space-x-6 text-sm font-medium text-stone-600">
-                <a href="#about" class="hover:text-amber-800 transition-colors">關於我</a>
-                <a href="#skills" class="hover:text-amber-800 transition-colors">核心技能</a>
-                <a href="#certifications" class="hover:text-amber-800 transition-colors">專業證照</a>
-                <a href="#contact" class="hover:text-amber-800 transition-colors">聯絡方式</a>
+            <nav class="hidden sm:flex items-center space-x-6 text-sm font-medium text-warm-800/80">
+                <a href="#about" class="hover:text-amberBrand-600 transition-colors">關於我</a>
+                <a href="#education" class="hover:text-amberBrand-600 transition-colors">學歷背景</a>
+                <a href="#experience" class="hover:text-amberBrand-600 transition-colors">工作經歷</a>
+                <a href="#skills" class="hover:text-amberBrand-600 transition-colors">核心技能</a>
+                <a href="#certifications" class="hover:text-amberBrand-600 transition-colors">專業證照</a>
             </nav>
-            <a href="#contact" class="text-xs sm:text-sm font-medium bg-stone-800 text-cream-50 px-4 py-2 rounded-full hover:bg-stone-700 transition-all shadow-sm">
+            <a href="#contact" class="text-xs sm:text-sm font-medium bg-warm-900 text-warm-50 px-4 py-2 rounded-full hover:bg-warm-800 transition-all shadow-sm">
                 立即聯絡
             </a>
         </div>
     </header>
 
-    <main class="flex-grow max-w-4xl w-full mx-auto px-6 py-8 sm:py-12 space-y-16">
+    <main class="flex-grow max-w-4xl w-full mx-auto px-6 py-10 sm:py-14 space-y-16">
 
-        <!-- Hero Section: Single-sentence positioning & Avatar -->
-        <section class="pt-4 sm:pt-8 text-center sm:text-left flex flex-col sm:flex-row items-center gap-8">
-            <div class="relative group">
-                <img src="https://miwa1001.github.io/portfolio/icinamon.png" alt="個人頭像" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-amber-300 shadow-md">
-                <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 border-2 border-cream-50 rounded-full" title="即戰力準備中"></span>
-            </div>
-            <div class="flex-1 space-y-3">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 text-xs font-semibold tracking-wide">
-                    <i class="fa-solid fa-location-dot"></i> 具備 1.6 年日本在地實務經驗
+        <!-- Hero Section -->
+        <section class="pt-2 sm:pt-6 flex flex-col sm:flex-row items-center sm:items-start gap-8">
+            <div class="relative shrink-0 group cursor-pointer" onclick="document.getElementById('photoInput').click()" title="點擊上傳或更換照片">
+                <!-- 預設讀取指定線上照片 URL -->
+                <img id="profileImg" src="https://miwa1001.github.io/portfolio/20251107.jpg" onerror="this.onerror=null; this.src='https://placehold.co/160x160/efe7da/534335?text=郭庭瑋';" alt="郭庭瑋" class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border-2 border-warm-300/80 shadow-md group-hover:opacity-90 transition-opacity">
+                <input type="file" id="photoInput" class="hidden" accept="image/*" onchange="previewPhoto(event)">
+                
+                <!-- Hover 提示 overlay -->
+                <div class="absolute inset-0 bg-warm-900/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-medium gap-1 pointer-events-none">
+                    <i class="fa-solid fa-camera text-base"></i>
+                    <span>更換照片</span>
                 </div>
-                <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-stone-900 leading-tight">
-                    雙語後勤與業務支援人才
+            </div>
+            <div class="flex-1 text-center sm:text-left space-y-3.5">
+                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amberBrand-700 text-xs font-semibold tracking-wide border border-amber-200">
+                        <i class="fa-solid fa-graduation-cap"></i> 銘傳大學 應用日語系
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/90 text-emerald-800 text-xs font-semibold tracking-wide border border-emerald-200">
+                        <i class="fa-solid fa-plane-departure"></i> 日本在地實務 22 個月
+                    </span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-warm-900 leading-tight">
+                    郭庭瑋
                 </h1>
-                <p class="text-stone-600 text-base sm:text-lg font-normal leading-relaxed">
-                    「運用日文實務對接與高壓多工調度能力，成為日商與跨國團隊最穩定可靠的營運後盾。」
+                
+                <p class="text-warm-800/80 text-base sm:text-lg font-normal leading-relaxed max-w-2xl">
+                    「運用日文實務對接、多工流程協調與現場應變能力，成為團隊最穩定可靠的營運後盾。」
                 </p>
+                
                 <div class="pt-2 flex flex-wrap justify-center sm:justify-start gap-3">
-                    <a href="#contact" class="inline-flex items-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-amber-800 transition-all shadow-sm">
-                        <i class="fa-regular fa-envelope"></i> 預約面談
+                    <a href="#contact" class="inline-flex items-center gap-2 bg-amberBrand-600 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-amberBrand-700 transition-all shadow-sm">
+                        <i class="fa-regular fa-paper-plane"></i> 預約面談
                     </a>
-                    <a href="#certifications" class="inline-flex items-center gap-2 bg-cream-50 text-stone-700 border border-cream-300 px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-cream-200 transition-all">
-                        <i class="fa-solid fa-award"></i> 檢視證照
+                    <a href="#experience" class="inline-flex items-center gap-2 bg-warm-50 text-warm-800 border border-warm-300 px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-warm-200 transition-all">
+                        <i class="fa-solid fa-briefcase"></i> 瀏覽經歷
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- About Me Section -->
-        <section id="about" class="space-y-6 scroll-mt-24">
-            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
-                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
-                    <i class="fa-regular fa-id-card text-amber-700"></i> 關於我與實務經驗
+        <section id="about" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-regular fa-id-card text-amberBrand-600"></i> 關於我
                 </h2>
-                <span class="text-xs text-stone-500 font-mono">ABOUT ME & EXPERIENCE</span>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">ABOUT ME</span>
             </div>
             
-            <div class="bg-cream-50 p-6 sm:p-8 rounded-2xl border border-cream-200 shadow-sm space-y-6">
-                <p class="text-stone-700 leading-relaxed text-base">
-                    本人具備 <strong class="text-amber-900 font-semibold">1.6 年日本在地工作實績</strong>，熟悉日文商業書信溝通、內部通訊軟體對接與跨文化協調。過往在大流量、高節奏的營運環境中，累積了「多工資源調度、流程拆解（OJT）、風險預警」的核心優勢。
+            <div class="bg-warm-50 p-6 sm:p-8 rounded-2xl border border-warm-200/80 shadow-sm space-y-4">
+                <p class="text-warm-900/90 leading-relaxed text-base">
+                    畢業於銘傳大學應用日語系，具備 <strong class="text-amberBrand-700 font-semibold underline underline-offset-4 decoration-amber-300">日本在地飯店與民宿累積 22 個月</strong> 的實務經驗，以及國內零售業門市服務歷練。過往在大流量與高應變的營運現場中，培養了日文實務對接、跨文化溝通協調、現場流程管理與臨時狀況處置能力。
                 </p>
-                
-                <!-- 3 Integrated Detailed Achievements -->
-                <div class="space-y-3 pt-1">
-                    <h3 class="text-xs font-bold tracking-wider text-amber-900 uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-briefcase"></i> 核心實務經驗與戰績
-                    </h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <!-- Item 1 -->
-                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
-                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
-                                <i class="fa-solid fa-chart-line"></i> 高載量資源調配
-                            </div>
-                            <h4 class="font-bold text-stone-900 text-xs">400人次/日 營運調度</h4>
-                            <p class="text-xs text-stone-600 leading-relaxed">
-                                在日本高峰營運期間（單日 400 人次/45 桌），透過優先順序管理（Priority Management）預判供需，達成關鍵項目零空盤、尖峰作業零中斷。
-                            </p>
-                        </div>
-
-                        <!-- Item 2 -->
-                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
-                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
-                                <i class="fa-solid fa-users-gear"></i> 跨國 OJT 培訓傳承
-                            </div>
-                            <h4 class="font-bold text-stone-900 text-xs">OJT 標準化培訓手冊</h4>
-                            <p class="text-xs text-stone-600 leading-relaxed">
-                                擔任外籍同仁專屬 OJT 導師，將複雜模組作業拆解為圖解 SOP 步驟，成功降低溝通成本，縮短新人獨立上線時程至 2~3 週。
-                            </p>
-                        </div>
-
-                        <!-- Item 3 -->
-                        <div class="p-4 bg-cream-100/70 rounded-xl border border-cream-300/70 space-y-2">
-                            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
-                                <i class="fa-solid fa-shield-halved"></i> 跨文化行政與合規
-                            </div>
-                            <h4 class="font-bold text-stone-900 text-xs">雙語行政與安全控管</h4>
-                            <p class="text-xs text-stone-600 leading-relaxed">
-                                熟練對接日文商業信件與內部通訊（Slack/Teams）；保持高度細敏度，曾主動識別並成功攔截未授權人員進入管制區，確保營運合規。
-                            </p>
-                        </div>
+                <div class="p-4 bg-amber-50/80 rounded-xl border border-amber-200 text-xs sm:text-sm text-warm-800 flex items-start gap-2.5">
+                    <i class="fa-solid fa-lightbulb text-amberBrand-600 mt-0.5"></i>
+                    <div>
+                        <strong class="text-amberBrand-700 font-semibold">職務定位：</strong> 憑藉將課堂知識學以致用的行動力與即戰力，能迅速熟悉企業內部 SOP，細心協助團隊進行現場協調、行政文書與業務後勤支援。
                     </div>
-                </div>
-
-                <!-- Excel Functions Portfolio Link Button -->
-                <div class="p-4 bg-emerald-900/5 rounded-xl border border-emerald-800/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg font-bold shrink-0">
-                            <i class="fa-regular fa-file-excel"></i>
-                        </div>
-                        <div>
-                            <div class="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
-                                Excel 實用函數與公式對照作品
-                                <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-medium">線上工具</span>
-                            </div>
-                            <p class="text-xs text-stone-600 mt-0.5">整理常用 Excel 函數與資料處理範例，展現數據處理與行政效率化的能力。</p>
-                        </div>
-                    </div>
-                    <a href="https://miwa1001.github.io/excel_functions/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl transition-all shadow-sm shrink-0 group">
-                        <i class="fa-solid fa-table"></i>
-                        <span>前往 Excel 函數專頁</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-                    </a>
-                </div>
-
-                <div class="p-4 bg-amber-50/80 rounded-xl border border-amber-200/80 text-xs sm:text-sm text-stone-700">
-                    <strong class="text-amber-900">未來展望：</strong> 憑藉日文對接、流程拆解與現場溝通實力，我能迅速對接貴司 SOP 及 Office 規範，細心分擔團隊後勤負擔，創造最高效的運作體驗。
                 </div>
             </div>
         </section>
 
-        <!-- 3 Core Skills Section -->
-        <section id="skills" class="space-y-6 scroll-mt-24">
-            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
-                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-amber-700"></i> 核心技能
+        <!-- Education Section -->
+        <section id="education" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-graduation-cap text-amberBrand-600"></i> 學歷背景
                 </h2>
-                <span class="text-xs text-stone-500 font-mono">3 CORE SKILLS</span>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">EDUCATION</span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <!-- Skill 1 -->
-                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
-                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
-                        <i class="fa-solid fa-language"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- University -->
+                <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover relative overflow-hidden flex flex-col justify-between">
+                    <div class="w-1.5 h-full bg-amberBrand-600 absolute left-0 top-0"></div>
+                    <div class="space-y-3 pl-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[11px] font-bold text-amberBrand-700 uppercase bg-amber-100 px-2.5 py-0.5 rounded-md border border-amber-200">
+                                大學畢業
+                            </span>
+                            <span class="text-xs font-mono text-warm-800/60 bg-warm-200/80 px-2.5 py-1 rounded-md">
+                                2019/09 ~ 2023/06
+                            </span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-warm-900">私立銘傳大學</h3>
+                            <p class="text-sm font-semibold text-amberBrand-700">應用日語系</p>
+                        </div>
+                        <p class="text-xs text-warm-800/70 leading-relaxed pt-1">
+                            主修商業日語、跨文化溝通與日語聽說讀寫，具備扎實的文法基礎與高級日語口譯對話實力。
+                        </p>
                     </div>
-                    <h3 class="text-lg font-bold text-stone-900">1. 日中雙語商務溝通</h3>
-                    <p class="text-xs text-stone-600 leading-relaxed">
-                        精準撰寫日文基礎商業信件、熟練使用內部通訊（Slack/Teams/Line），具備良好跨文化溝通與對接能力。
-                    </p>
+                </div>
+
+                <!-- High School -->
+                <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover relative overflow-hidden flex flex-col justify-between">
+                    <div class="w-1.5 h-full bg-warm-400 absolute left-0 top-0"></div>
+                    <div class="space-y-3 pl-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[11px] font-bold text-warm-800 uppercase bg-warm-200 px-2.5 py-0.5 rounded-md">
+                                高中畢業
+                            </span>
+                            <span class="text-xs font-mono text-warm-800/60 bg-warm-200/80 px-2.5 py-1 rounded-md">
+                                2016/09 ~ 2019/06
+                            </span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-warm-900">新北市立北大高級中學</h3>
+                            <p class="text-sm font-medium text-warm-800/80">普通科</p>
+                        </div>
+                        <p class="text-xs text-warm-800/70 leading-relaxed pt-1">
+                            培養溝通表達與邏輯思維能力，奠定良好的基礎跨領域學習實力。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Experience Timeline Section -->
+        <section id="experience" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-briefcase text-amberBrand-600"></i> 工作經歷
+                </h2>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">WORK EXPERIENCE (總年資 1~2年)</span>
+            </div>
+
+            <div class="relative border-l-2 border-amberBrand-600/30 ml-4 pl-6 sm:pl-8 space-y-6 pt-2">
+
+                <!-- Job 1 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-amberBrand-600 ring-4 ring-warm-100 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-warm-50 p-5 sm:p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-200/60 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 text-amberBrand-700">日本 🇯🇵</span>
+                                    <h3 class="text-base sm:text-lg font-bold text-warm-900">休暇村（志賀島）</h3>
+                                </div>
+                                <div class="text-xs text-warm-800/70 mt-1 flex flex-wrap gap-2">
+                                    <span><i class="fa-solid fa-user-tag text-amberBrand-600"></i> 餐廳服務人員</span>
+                                    <span>• 旅館業 (1~30人)</span>
+                                </div>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <div class="text-xs font-mono font-semibold text-warm-900">2025/06 ~ 2025/09</div>
+                                <span class="text-[11px] font-semibold text-amberBrand-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block mt-1">4 個月</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                            擔任餐廳服務人員，負責顧客對應、現場流程協調及臨時狀況處理。將前職所學學以致用，迅速發揮即戰力。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-amberBrand-600/80 ring-4 ring-warm-100 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-warm-50 p-5 sm:p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-200/60 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 text-amberBrand-700">日本 🇯🇵</span>
+                                    <h3 class="text-base sm:text-lg font-bold text-warm-900">福岡旅路民宿</h3>
+                                </div>
+                                <div class="text-xs text-warm-800/70 mt-1 flex flex-wrap gap-2">
+                                    <span><i class="fa-solid fa-user-tag text-amberBrand-600"></i> 民宿服務人員</span>
+                                    <span>• 旅館業 (1~30人)</span>
+                                </div>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <div class="text-xs font-mono font-semibold text-warm-900">2025/03 ~ 2025/05</div>
+                                <span class="text-[11px] font-semibold text-amberBrand-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block mt-1">3 個月</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                            負責民宿日常服務與清掃作業，並在與多國旅客溝通協調的過程中增進語言對接力與臨機應變能力。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-amberBrand-600/60 ring-4 ring-warm-100 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-warm-50 p-5 sm:p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-200/60 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 text-amberBrand-700">日本 🇯🇵</span>
+                                    <h3 class="text-base sm:text-lg font-bold text-warm-900">大洗酒店</h3>
+                                </div>
+                                <div class="text-xs text-warm-800/70 mt-1 flex flex-wrap gap-2">
+                                    <span><i class="fa-solid fa-user-tag text-amberBrand-600"></i> 餐廳服務人員</span>
+                                    <span>• 旅館業 (30~100人)</span>
+                                </div>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <div class="text-xs font-mono font-semibold text-warm-900">2024/09 ~ 2025/03</div>
+                                <span class="text-[11px] font-semibold text-amberBrand-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block mt-1">7 個月</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                            擔任餐廳服務人員，負責顧客服務及現場流程管理，協助主管協調現場人力分配，有效提升團隊協作效率。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-stone-500 ring-4 ring-warm-100 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-warm-50 p-5 sm:p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-200/60 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-stone-200 text-stone-800">台灣 🇹🇼 新北市板橋區</span>
+                                    <h3 class="text-base sm:text-lg font-bold text-warm-900">麗嬰國際股份有限公司</h3>
+                                </div>
+                                <div class="text-xs text-warm-800/70 mt-1 flex flex-wrap gap-2">
+                                    <span><i class="fa-solid fa-user-tag text-amberBrand-600"></i> 門市人員</span>
+                                    <span>• 文教/育樂用品零售業</span>
+                                </div>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <div class="text-xs font-mono font-semibold text-warm-900">2023/12 ~ 2024/09</div>
+                                <span class="text-[11px] font-semibold text-stone-700 bg-stone-200 px-2 py-0.5 rounded-md inline-block mt-1">10 個月</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                            負責文教育樂用品零售門市營運工作、商品推廣與顧客服務，精準掌握消費需求並累積實務零售經驗。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-amberBrand-700 ring-4 ring-warm-100 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-warm-50 p-5 sm:p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-warm-200/60 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 text-amberBrand-700">日本 🇯🇵</span>
+                                    <h3 class="text-base sm:text-lg font-bold text-warm-900">休暇村（裏磐梯）</h3>
+                                </div>
+                                <div class="text-xs text-warm-800/70 mt-1 flex flex-wrap gap-2">
+                                    <span><i class="fa-solid fa-user-tag text-amberBrand-600"></i> 餐廳實習生</span>
+                                    <span>• 旅館業 (1~30人)</span>
+                                </div>
+                            </div>
+                            <div class="text-left sm:text-right">
+                                <div class="text-xs font-mono font-semibold text-warm-900">2023/03 ~ 2023/10</div>
+                                <span class="text-[11px] font-semibold text-amberBrand-700 bg-amber-100 px-2 py-0.5 rounded-md inline-block mt-1">8 個月</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                            於日本飯店進行為期 8 個月的海外實習，將課堂上所學的日語與禮儀實踐於現場，累積豐富的跨文化溝通與顧客服務實務能力。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Core Skills Section -->
+        <section id="skills" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-list-check text-amberBrand-600"></i> 核心技能
+                </h2>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">CORE SKILLS</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <!-- Skill 1 -->
+                <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amberBrand-700 text-xl font-bold">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-warm-900">1. 日中雙語實務對接</h3>
+                        <p class="text-xs text-warm-800/70 leading-relaxed">
+                            銘傳應日系專業背景，具備 22 個月日本在地第一線服務經驗，精準對接日文商業溝通與內部聯繫。
+                        </p>
+                    </div>
                     <div class="pt-2 flex flex-wrap gap-1.5">
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">商務信件</span>
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">跨文化對接</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">應用日語</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">跨文化對接</span>
                     </div>
                 </div>
 
                 <!-- Skill 2 -->
-                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
-                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
-                        <i class="fa-solid fa-list-ol"></i>
+                <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amberBrand-700 text-xl font-bold">
+                            <i class="fa-solid fa-list-ol"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-warm-900">2. 現場調度與流程管理</h3>
+                        <p class="text-xs text-warm-800/70 leading-relaxed">
+                            多次於日本高流量飯店餐廳負責現場流程協調與人力排定，能確保高峰期作業順暢無阻。
+                        </p>
                     </div>
-                    <h3 class="text-lg font-bold text-stone-900">2. 多工調度與進度控管</h3>
-                    <p class="text-xs text-stone-600 leading-relaxed">
-                        擅長多線任務優先順序調配（Priority Management），能精準追蹤訂單、廠商與專案進度，確保後勤流暢。
-                    </p>
                     <div class="pt-2 flex flex-wrap gap-1.5">
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">多工處理</span>
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">進度追蹤</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">流程協調</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">人力調度</span>
                     </div>
                 </div>
 
                 <!-- Skill 3 -->
-                <div class="bg-cream-50 p-6 rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-shadow space-y-3">
-                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-800 text-xl font-bold">
-                        <i class="fa-solid fa-sitemap"></i>
+                <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200/80 shadow-sm card-hover space-y-3 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amberBrand-700 text-xl font-bold">
+                            <i class="fa-solid fa-arrows-spin"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-warm-900">3. 臨機應變與高適應力</h3>
+                        <p class="text-xs text-warm-800/70 leading-relaxed">
+                            具備多家日本飯店與台灣門市經驗，能迅速融入不同組織規範（SOP），並冷靜處理突發狀況。
+                        </p>
                     </div>
-                    <h3 class="text-lg font-bold text-stone-900">3. SOP 流程拆解與 OJT</h3>
-                    <p class="text-xs text-stone-600 leading-relaxed">
-                        能將複雜工作流程歸納拆解為圖解與標準作業流程（SOP），有效進行跨國同仁培訓與傳承。
-                    </p>
                     <div class="pt-2 flex flex-wrap gap-1.5">
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">SOP 製作</span>
-                        <span class="text-[10px] bg-cream-200 text-stone-700 px-2 py-0.5 rounded-md">內部培訓</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">即戰力</span>
+                        <span class="text-[10px] bg-warm-200/80 text-warm-800 font-medium px-2 py-0.5 rounded-md">應變處置</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Certifications Section -->
-        <section id="certifications" class="space-y-6 scroll-mt-24">
-            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
-                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
-                    <i class="fa-solid fa-certificate text-amber-700"></i> 專業證照與檢定
+        <section id="certifications" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-certificate text-amberBrand-600"></i> 專業證照與檢定
                 </h2>
-                <span class="text-xs text-stone-500 font-mono">3 CERTIFICATIONS</span>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">CERTIFICATIONS</span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <!-- Cert 1 -->
-                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
-                    <div class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <!-- Cert 1: JLPT N1 -->
+                <div class="bg-warm-50 rounded-2xl border-2 border-amber-300/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4 relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-20 h-20 bg-amber-100 rounded-full opacity-50"></div>
+                    <div class="space-y-3 relative z-10">
                         <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                            <div class="w-10 h-10 rounded-xl bg-amberBrand-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
                                 <i class="fa-solid fa-award"></i>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-200">
-                                語言能力檢定
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                                官方最高級別
                             </span>
                         </div>
                         <div>
-                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 01</span>
-                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                            <span class="text-[10px] text-amberBrand-700 font-mono font-bold tracking-wider">CERTIFICATE 01</span>
+                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
                                 日本語能力試驗 (JLPT)
                             </h3>
+                            <div class="text-xs font-bold text-amberBrand-700 mt-0.5">N1 合格認證</div>
                         </div>
-                        <p class="text-xs text-stone-600 leading-relaxed">
-                            日語能力官方認證預留區，具備流暢閱讀、商業書信對接與跨文化溝通實務能力。
+                        <p class="text-xs text-warm-800/80 leading-relaxed">
+                            具備日語最高級別認證，能理解高難度商業日文、流暢進行商務簡報與跨國郵件對接。
                         </p>
                     </div>
-                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
-                        <span>狀態：資料待填入</span>
-                        <button onclick="showModal('日本語能力試驗 (JLPT)', '【證照預留區】可在此填寫您的 JLPT 級別（如 N1 / N2）、發照年份、分數表現，或附加證照掃描檔連結。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/70 relative z-10">
+                        <span class="font-medium text-emerald-700"><i class="fa-solid fa-circle-check"></i> 已取得證照</span>
+                        <button onclick="showModal('日本語能力試驗 (JLPT N1)', '恭喜取得日語最高檢定等級 N1 合格！具備流暢聽說讀寫與正式商務溝通對接實力。')" class="text-amberBrand-700 hover:underline font-semibold text-[11px]">
                             檢視細節
                         </button>
                     </div>
                 </div>
 
                 <!-- Cert 2 -->
-                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                <div class="bg-warm-50 rounded-2xl border border-warm-200/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amberBrand-700 text-lg font-bold">
                                 <i class="fa-solid fa-laptop-code"></i>
                             </div>
-                            <span class="bg-amber-100 text-amber-900 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
-                                行政/電腦檢定
+                            <span class="bg-amber-100 text-amberBrand-700 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
+                                行政 / 電腦技能
                             </span>
                         </div>
                         <div>
-                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 02</span>
-                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                            <span class="text-[10px] text-warm-800/40 font-mono">CERTIFICATE 02</span>
+                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
                                 商務行政與技能認證
                             </h3>
                         </div>
-                        <p class="text-xs text-stone-600 leading-relaxed">
-                            預留放 MS Office 應用認證、BJT 商務日語能力考試或行政文書相關檢定。
+                        <p class="text-xs text-warm-800/70 leading-relaxed">
+                            預留區：可放 MS Office 應用認證、BJT 商務日語能力考試或行政文書相關檢定。
                         </p>
                     </div>
-                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
-                        <span>狀態：資料待填入</span>
-                        <button onclick="showModal('商務行政與技能認證', '【證照預留區】可在此填寫您的行政文書能力認證、BJT 檢定成績或相關電腦技能證照。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/60">
+                        <span>資料擴充預留</span>
+                        <button onclick="showModal('商務行政與技能認證', '【證照預留區】可在此填寫您的行政文書能力認證、BJT 檢定成績或相關電腦技能證照。')" class="text-amberBrand-700 hover:underline font-medium text-[11px]">
                             檢視細節
                         </button>
                     </div>
                 </div>
 
                 <!-- Cert 3 -->
-                <div class="bg-cream-50 rounded-2xl border border-cream-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                <div class="bg-warm-50 rounded-2xl border border-warm-200/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 text-lg font-bold">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amberBrand-700 text-lg font-bold">
                                 <i class="fa-solid fa-file-contract"></i>
                             </div>
-                            <span class="bg-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-full">
+                            <span class="bg-warm-200 text-warm-800 text-[10px] font-semibold px-2.5 py-1 rounded-full">
                                 彈性擴充區
                             </span>
                         </div>
                         <div>
-                            <span class="text-[10px] text-stone-400 font-mono">CERTIFICATE 03</span>
-                            <h3 class="font-bold text-stone-900 text-base mt-0.5">
+                            <span class="text-[10px] text-warm-800/40 font-mono">CERTIFICATE 03</span>
+                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
                                 專業檢定 / 培訓證書
                             </h3>
                         </div>
-                        <p class="text-xs text-stone-600 leading-relaxed">
-                            彈性擴充預留區，可用於呈現職場安全培訓、專案管理或跨國研修證明。
+                        <p class="text-xs text-warm-800/70 leading-relaxed">
+                            預留區：可用於呈現職場安全培訓、專案管理或跨國研修證明。
                         </p>
                     </div>
-                    <div class="pt-3 border-t border-cream-200/80 flex items-center justify-between text-xs text-stone-500">
-                        <span>狀態：資料待填入</span>
-                        <button onclick="showModal('專業檢定 / 培訓證書', '【證照預留區】隨時可依據您最新的檢定資格或結業證書進行填補與更新。')" class="text-amber-800 hover:underline font-medium text-[11px]">
+                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/60">
+                        <span>資料擴充預留</span>
+                        <button onclick="showModal('專業檢定 / 培訓證書', '【證照預留區】隨時可依據您最新的檢定資格或結業證書進行填補與更新。')" class="text-amberBrand-700 hover:underline font-medium text-[11px]">
                             檢視細節
                         </button>
                     </div>
@@ -337,82 +517,82 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="space-y-6 scroll-mt-24">
-            <div class="border-b border-cream-300 pb-3 flex items-center justify-between">
-                <h2 class="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
-                    <i class="fa-regular fa-paper-plane text-amber-700"></i> 聯絡方式
+        <section id="contact" class="space-y-4 scroll-mt-24">
+            <div class="border-b border-warm-300 pb-3 flex items-center justify-between">
+                <h2 class="text-xl sm:text-2xl font-bold text-warm-900 flex items-center gap-2.5">
+                    <i class="fa-regular fa-paper-plane text-amberBrand-600"></i> 聯絡方式
                 </h2>
-                <span class="text-xs text-stone-500 font-mono">CONTACT</span>
+                <span class="text-xs text-warm-800/50 font-mono tracking-wider">CONTACT</span>
             </div>
 
-            <div class="bg-stone-900 text-cream-50 p-6 sm:p-8 rounded-2xl shadow-lg space-y-6">
+            <div class="bg-warm-900 text-warm-50 p-6 sm:p-8 rounded-2xl shadow-lg space-y-6">
                 <div class="space-y-2">
                     <h3 class="text-xl font-bold text-amber-200">期待與貴公司展開合作</h3>
-                    <p class="text-xs sm:text-sm text-stone-300">
-                        若您正在尋找具備日語經驗、條理清晰與嚴謹後勤執行的行政/業務助理，歡迎隨時聯繫！
+                    <p class="text-xs sm:text-sm text-warm-200/80 leading-relaxed">
+                        若您正在尋找具備日語經驗（JLPT N1）、條理清晰與嚴謹執行的後勤或業務支援夥伴，歡迎隨時聯繫！
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                     <!-- Email Copy -->
-                    <div class="flex items-center justify-between p-3.5 bg-stone-800/80 rounded-xl border border-stone-700">
+                    <div class="flex items-center justify-between p-3.5 bg-warm-800/80 rounded-xl border border-warm-700">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center text-amber-400">
+                            <div class="w-9 h-9 rounded-lg bg-amberBrand-700/50 flex items-center justify-center text-amber-300">
                                 <i class="fa-regular fa-envelope"></i>
                             </div>
                             <div>
-                                <div class="text-[10px] text-stone-400">電子信箱</div>
-                                <div id="emailText" class="text-xs sm:text-sm font-mono font-medium">your.email@example.com</div>
+                                <div class="text-[10px] text-warm-300/70">電子信箱</div>
+                                <div id="emailText" class="text-xs sm:text-sm font-mono font-medium text-warm-100">your.email@example.com</div>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('your.email@example.com')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-stone-700 rounded-lg transition-colors">
+                        <button onclick="copyToClipboard('your.email@example.com')" class="text-xs text-amber-300 hover:text-amber-200 px-3 py-1.5 bg-warm-700 rounded-lg transition-colors font-medium">
                             複製
                         </button>
                     </div>
 
                     <!-- Phone Copy -->
-                    <div class="flex items-center justify-between p-3.5 bg-stone-800/80 rounded-xl border border-stone-700">
+                    <div class="flex items-center justify-between p-3.5 bg-warm-800/80 rounded-xl border border-warm-700">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center text-amber-400">
+                            <div class="w-9 h-9 rounded-lg bg-amberBrand-700/50 flex items-center justify-center text-amber-300">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
                             <div>
-                                <div class="text-[10px] text-stone-400">聯絡電話</div>
-                                <div id="phoneText" class="text-xs sm:text-sm font-mono font-medium">+886 912-345-678</div>
+                                <div class="text-[10px] text-warm-300/70">聯絡電話</div>
+                                <div id="phoneText" class="text-xs sm:text-sm font-mono font-medium text-warm-100">+886 912-345-678</div>
                             </div>
                         </div>
-                        <button onclick="copyToClipboard('+886 912-345-678')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-stone-700 rounded-lg transition-colors">
+                        <button onclick="copyToClipboard('+886 912-345-678')" class="text-xs text-amber-300 hover:text-amber-200 px-3 py-1.5 bg-warm-700 rounded-lg transition-colors font-medium">
                             複製
                         </button>
                     </div>
                 </div>
 
-                <div class="pt-2 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-400">
-                    <div class="flex items-center gap-4">
-                        <span class="hover:text-amber-200 transition-colors"><i class="fa-brands fa-linkedin"></i> LinkedIn 檔案</span>
-                        <span class="hover:text-amber-200 transition-colors"><i class="fa-solid fa-globe"></i> 台北 / 桃園 / 遠端可訊</span>
+                <div class="pt-3 border-t border-warm-800 flex flex-wrap items-center justify-between gap-4 text-xs text-warm-300/80">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-amber-400"></i>
+                        <span>期望工作地點：<strong class="text-warm-100 font-semibold">雙北地區</strong> / 遠端可訊</span>
                     </div>
-                    <div id="toast" class="text-amber-300 text-xs hidden">已複製到剪貼簿！</div>
+                    <div id="toast" class="text-amber-300 font-semibold text-xs hidden">✓ 已複製到剪貼簿！</div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Modal Dialog for Projects -->
-    <div id="projectModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cream-50 rounded-2xl max-w-md w-full p-6 border border-cream-300 shadow-xl space-y-4">
-            <div class="flex items-center justify-between border-b border-cream-200 pb-3">
-                <h3 id="modalTitle" class="font-bold text-stone-900 text-lg">專案標題</h3>
-                <button onclick="closeModal()" class="text-stone-400 hover:text-stone-700 text-lg">
+    <!-- Modal Dialog -->
+    <div id="projectModal" class="fixed inset-0 bg-warm-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-warm-50 rounded-2xl max-w-md w-full p-6 border border-warm-300 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-warm-200 pb-3">
+                <h3 id="modalTitle" class="font-bold text-warm-900 text-lg">標題</h3>
+                <button onclick="closeModal()" class="text-warm-800/50 hover:text-warm-900 text-lg">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <p id="modalContent" class="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                專案詳細說明內容...
+            <p id="modalContent" class="text-xs sm:text-sm text-warm-800/80 leading-relaxed">
+                詳細說明內容...
             </p>
-            <div class="pt-3 text-right">
-                <button onclick="closeModal()" class="px-4 py-2 bg-stone-800 text-cream-50 text-xs font-semibold rounded-xl hover:bg-stone-700">
+            <div class="pt-2 text-right">
+                <button onclick="closeModal()" class="px-5 py-2 bg-warm-900 text-warm-50 text-xs font-semibold rounded-xl hover:bg-warm-800 transition-colors">
                     關閉視窗
                 </button>
             </div>
@@ -420,12 +600,23 @@
     </div>
 
     <!-- Footer -->
-    <footer class="border-t border-cream-300 bg-cream-100/50 py-6 text-center text-xs text-stone-500">
-        <p>© 2026 個人簡介單頁網頁. All rights reserved.</p>
+    <footer class="border-t border-warm-300 bg-warm-100/60 py-6 text-center text-xs text-warm-800/60">
+        <p>© 2026 郭庭瑋 個人履歷網站. All rights reserved.</p>
     </footer>
 
     <!-- Interactive JavaScript -->
     <script>
+        function previewPhoto(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('profileImg');
+                output.src = reader.result;
+            };
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
         function copyToClipboard(text) {
             const tempInput = document.createElement('input');
             tempInput.value = text;
@@ -438,7 +629,7 @@
             toast.classList.remove('hidden');
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 2000);
+            }, 2200);
         }
 
         function showModal(title, content) {
