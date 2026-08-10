@@ -58,6 +58,14 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(83, 67, 53, 0.08), 0 8px 10px -6px rgba(83, 67, 53, 0.04);
         }
+        /* 隱藏滾動條但保持捲動功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-amber-200 selection:text-stone-900">
@@ -425,95 +433,148 @@
                 <span class="text-xs text-warm-800/50 font-mono tracking-wider">CERTIFICATIONS</span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <!-- Cert 1: JLPT N1 -->
-                <div class="bg-warm-50 rounded-2xl border-2 border-amber-300/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4 relative overflow-hidden">
-                    <div class="absolute -right-8 -top-8 w-20 h-20 bg-amber-100 rounded-full opacity-50"></div>
-                    <div class="space-y-3 relative z-10">
-                        <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amberBrand-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
-                                <i class="fa-solid fa-award"></i>
+            <!-- Carousel Wrapper with Mouseleave Auto Close -->
+            <div class="relative group px-1" onmouseleave="scheduleCloseCardModal()">
+                <!-- Cert Cards Horizontal Container -->
+                <div id="certContainer" class="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 no-scrollbar">
+                    
+                    <!-- Cert 1: JLPT N1 -->
+                    <div data-cert-index="0"
+                         onmouseenter="openCertIndex(0)" 
+                         onmouseleave="scheduleCloseCardModal()"
+                         class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border-2 border-amber-300/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4 relative overflow-hidden cursor-pointer group/card transition-all">
+                        <div class="absolute -right-8 -top-8 w-20 h-20 bg-amber-100 rounded-full opacity-50"></div>
+                        <div class="space-y-3 relative z-10">
+                            <div class="flex items-center justify-between">
+                                <div class="w-10 h-10 rounded-xl bg-amberBrand-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
+                                    <i class="fa-solid fa-award"></i>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                                    官方最高級別
+                                </span>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">
-                                官方最高級別
+                            <div>
+                                <span class="text-[10px] text-amberBrand-700 font-mono font-bold tracking-wider">CERTIFICATE 01</span>
+                                <h3 class="font-bold text-warm-900 text-base mt-0.5">
+                                    日本語能力試驗 (JLPT)
+                                </h3>
+                                <div class="text-xs font-bold text-amberBrand-700 mt-0.5">N1 合格認證</div>
+                            </div>
+                            <p class="text-xs text-warm-800/80 leading-relaxed">
+                                具備日語最高級別認證，能理解高難度商業日文、流暢進行商務簡報與跨國郵件對接。
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/70 relative z-10">
+                            <span class="font-medium text-emerald-700"><i class="fa-solid fa-circle-check"></i> 已取得證照</span>
+                            <span class="text-amberBrand-700 font-semibold text-[11px] group-hover/card:underline flex items-center gap-1">
+                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停即可預覽
                             </span>
                         </div>
-                        <div>
-                            <span class="text-[10px] text-amberBrand-700 font-mono font-bold tracking-wider">CERTIFICATE 01</span>
-                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
-                                日本語能力試驗 (JLPT)
-                            </h3>
-                            <div class="text-xs font-bold text-amberBrand-700 mt-0.5">N1 合格認證</div>
+                    </div>
+
+                    <!-- Cert 2: Accredible Certificate 1 -->
+                    <div data-cert-index="1"
+                         onmouseenter="openCertIndex(1)"
+                         onmouseleave="scheduleCloseCardModal()"
+                         class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
+                        <div class="w-full flex justify-between items-center mb-2">
+                            <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 02</span>
+                            <span class="text-[10px] bg-warm-200 text-warm-800 font-medium px-2 py-0.5 rounded">Gemini University Student</span>
                         </div>
-                        <p class="text-xs text-warm-800/80 leading-relaxed">
-                            具備日語最高級別認證，能理解高難度商業日文、流暢進行商務簡報與跨國郵件對接。
-                        </p>
+                        
+                        <!-- 證書圖片縮圖 -->
+                        <div class="my-auto flex items-center justify-center p-1 w-full min-h-[160px] relative overflow-hidden rounded-lg">
+                            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191055731" 
+                                 alt="Accredible Certificate 191055731" 
+                                 class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
+                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
+                            </div>
+                        </div>
+
+                        <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
+                            <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
+                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                            </span>
+                            <span class="text-amberBrand-700 font-medium text-[11px]">
+                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                            </span>
+                        </div>
                     </div>
-                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/70 relative z-10">
-                        <span class="font-medium text-emerald-700"><i class="fa-solid fa-circle-check"></i> 已取得證照</span>
-                        <button onclick="showModal('日本語能力試驗 (JLPT N1)', '恭喜取得日語最高檢定等級 N1 合格！具備流暢聽說讀寫與正式商務溝通對接實力。')" class="text-amberBrand-700 hover:underline font-semibold text-[11px]">
-                            檢視細節
-                        </button>
+
+                    <!-- Cert 3: Accredible Certificate 2 -->
+                    <div data-cert-index="2"
+                         onmouseenter="openCertIndex(2)"
+                         onmouseleave="scheduleCloseCardModal()"
+                         class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
+                        <div class="w-full flex justify-between items-center mb-2">
+                            <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 03</span>
+                            <span class="text-[10px] bg-warm-200 text-warm-800 font-medium px-2 py-0.5 rounded">Gemini Faculty</span>
+                        </div>
+                        
+                        <!-- 證書圖片縮圖 -->
+                        <div class="my-auto flex items-center justify-center p-1 w-full min-h-[160px] relative overflow-hidden rounded-lg">
+                            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191065287?key=a34e64540de9bc0da10a7ba2a2aa3148c83950f838443e4d42f37b1d486f101c" 
+                                 alt="Accredible Certificate 191065287" 
+                                 class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
+                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
+                            </div>
+                        </div>
+
+                        <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
+                            <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
+                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                            </span>
+                            <span class="text-amberBrand-700 font-medium text-[11px]">
+                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                            </span>
+                        </div>
                     </div>
+
+                    <!-- Cert 4: Accredible Certificate 3 -->
+                    <div data-cert-index="3"
+                         onmouseenter="openCertIndex(3)"
+                         onmouseleave="scheduleCloseCardModal()"
+                         class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
+                        <div class="w-full flex justify-between items-center mb-2">
+                            <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 04</span>
+                            <span class="text-[10px] bg-warm-200 text-warm-800 font-medium px-2 py-0.5 rounded">Gemini Educator</span>
+                        </div>
+                        
+                        <!-- 證書圖片縮圖 -->
+                        <div class="my-auto flex items-center justify-center p-1 w-full min-h-[160px] relative overflow-hidden rounded-lg">
+                            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191071243" 
+                                 alt="Accredible Certificate 191071243" 
+                                 class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
+                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
+                            </div>
+                        </div>
+
+                        <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
+                            <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
+                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                            </span>
+                            <span class="text-amberBrand-700 font-medium text-[11px]">
+                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Cert 2 -->
-                <div class="bg-warm-50 rounded-2xl border border-warm-200/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4">
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amberBrand-700 text-lg font-bold">
-                                <i class="fa-solid fa-laptop-code"></i>
-                            </div>
-                            <span class="bg-amber-100 text-amberBrand-700 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
-                                行政 / 電腦技能
-                            </span>
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-warm-800/40 font-mono">CERTIFICATE 02</span>
-                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
-                                商務行政與技能認證
-                            </h3>
-                        </div>
-                        <p class="text-xs text-warm-800/70 leading-relaxed">
-                            預留區：可放 MS Office 應用認證、BJT 商務日語能力考試或行政文書相關檢定。
-                        </p>
-                    </div>
-                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/60">
-                        <span>資料擴充預留</span>
-                        <button onclick="showModal('商務行政與技能認證', '【證照預留區】可在此填寫您的行政文書能力認證、BJT 檢定成績或相關電腦技能證照。')" class="text-amberBrand-700 hover:underline font-medium text-[11px]">
-                            檢視細節
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Cert 3 -->
-                <div class="bg-warm-50 rounded-2xl border border-warm-200/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4">
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amberBrand-700 text-lg font-bold">
-                                <i class="fa-solid fa-file-contract"></i>
-                            </div>
-                            <span class="bg-warm-200 text-warm-800 text-[10px] font-semibold px-2.5 py-1 rounded-full">
-                                彈性擴充區
-                            </span>
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-warm-800/40 font-mono">CERTIFICATE 03</span>
-                            <h3 class="font-bold text-warm-900 text-base mt-0.5">
-                                專業檢定 / 培訓證書
-                            </h3>
-                        </div>
-                        <p class="text-xs text-warm-800/70 leading-relaxed">
-                            預留區：可用於呈現職場安全培訓、專案管理或跨國研修證明。
-                        </p>
-                    </div>
-                    <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/60">
-                        <span>資料擴充預留</span>
-                        <button onclick="showModal('專業檢定 / 培訓證書', '【證照預留區】隨時可依據您最新的檢定資格或結業證書進行填補與更新。')" class="text-amberBrand-700 hover:underline font-medium text-[11px]">
-                            檢視細節
-                        </button>
-                    </div>
-                </div>
+                <!-- Navigation Arrow Buttons -->
+                <button onclick="scrollCertificates(1)" aria-label="Next Certificates" class="absolute -right-4 top-1/2 -translate-y-1/2 bg-warm-900/90 hover:bg-warm-900 text-warm-50 w-10 h-10 rounded-full flex items-center justify-center shadow-lg border border-warm-300 transition-all z-20 opacity-90 hover:scale-110">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </button>
+                
+                <button onclick="scrollCertificates(-1)" aria-label="Previous Certificates" class="absolute -left-4 top-1/2 -translate-y-1/2 bg-warm-900/90 hover:bg-warm-900 text-warm-50 w-10 h-10 rounded-full flex items-center justify-center shadow-lg border border-warm-300 transition-all z-20 opacity-90 hover:scale-110">
+                    <i class="fa-solid fa-chevron-left text-sm"></i>
+                </button>
             </div>
         </section>
 
@@ -628,6 +689,89 @@
         </div>
     </div>
 
+    <!-- Enlarged Certificate Card Modal with Navigation -->
+    <div id="cardModal" 
+         onmouseenter="cancelCloseCardModal()" 
+         onmouseleave="scheduleCloseCardModal()" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none hidden transition-all duration-300 opacity-0"
+         onclick="closeCardModal()">
+        
+        <!-- Backdrop Tint -->
+        <div class="absolute inset-0 bg-warm-900/50 backdrop-blur-sm pointer-events-none"></div>
+
+        <div id="modalContentBox" class="bg-warm-50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 border-2 border-warm-200 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto relative pointer-events-auto transition-transform duration-200 scale-95 my-auto" onclick="event.stopPropagation()">
+            
+            <!-- Modal Close Button -->
+            <button onclick="closeCardModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 text-warm-800/60 hover:text-warm-900 w-9 h-9 rounded-full bg-warm-200/60 hover:bg-warm-200 flex items-center justify-center text-lg transition-colors z-20" title="關閉預覽">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Previous / Next Floating Arrow Buttons -->
+            <button onclick="switchCert(-1)" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="上一張證書 (←)">
+                <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button onclick="switchCert(1)" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="下一張證書 (→)">
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+
+            <!-- Card Header -->
+            <div class="border-b border-warm-200 pb-4 space-y-1 pr-8 pl-4 sm:pl-6">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span id="modalCardTag" class="text-xs font-mono font-bold text-amberBrand-700 bg-amber-100 px-2.5 py-0.5 rounded-md border border-amber-200">
+                            CERTIFICATE
+                        </span>
+                        <span id="modalCardBadge" class="text-xs font-semibold text-warm-800 bg-warm-200 px-2 py-0.5 rounded-md">
+                            Badge
+                        </span>
+                    </div>
+                    <span id="modalCardCounter" class="text-xs font-mono font-semibold text-warm-800/60 bg-warm-200/80 px-2.5 py-0.5 rounded-md">
+                        1 / 4
+                    </span>
+                </div>
+                <h3 id="modalCardTitle" class="text-xl sm:text-2xl font-bold text-warm-900 pt-1">
+                    證書標題
+                </h3>
+                <p id="modalCardSubTitle" class="text-xs sm:text-sm font-medium text-amberBrand-700">
+                    副標題
+                </p>
+            </div>
+
+            <!-- Card Body / Image Preview Area -->
+            <div id="modalCardImgContainer" class="bg-warm-100/80 p-3 sm:p-4 rounded-xl border border-warm-200 flex items-center justify-center min-h-[220px]">
+                <img id="modalCardImg" src="" alt="Enlarged Certificate Card" class="max-h-[48vh] w-auto max-w-full rounded-lg shadow-md object-contain border border-warm-200/50 transition-all duration-300">
+            </div>
+
+            <!-- Text Fallback Container for JLPT -->
+            <div id="modalCardBadgeContainer" class="hidden bg-amber-50 p-6 rounded-xl border border-amber-200 text-center space-y-3">
+                <div class="w-16 h-16 bg-amberBrand-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto shadow-md">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h4 class="text-lg font-bold text-warm-900">日本語能力試驗 (JLPT N1)</h4>
+                <p class="text-xs text-amberBrand-700 font-semibold">日本國際教育支援協會 / 國際交流基金會</p>
+            </div>
+
+            <!-- Card Description -->
+            <p id="modalCardDesc" class="text-xs sm:text-sm text-warm-800/90 leading-relaxed bg-warm-100/50 p-4 rounded-xl border border-warm-200/60">
+                證書詳細說明資訊...
+            </p>
+
+            <!-- Card Actions Footer -->
+            <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-warm-200/80">
+                <a id="modalCardLink" href="#" target="_blank" class="inline-flex items-center gap-2 bg-amberBrand-600 text-white px-5 py-2.5 rounded-xl font-medium text-xs sm:text-sm hover:bg-amberBrand-700 transition-all shadow-sm">
+                    <span>開啟原圖 / 官方檢視</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </a>
+                <div class="text-xs text-warm-800/50 hidden sm:block">
+                    <i class="fa-solid fa-keyboard mr-1"></i> 可使用鍵盤左右鍵切換
+                </div>
+                <button onclick="closeCardModal()" class="ml-auto px-6 py-2.5 bg-warm-900 text-warm-50 text-xs sm:text-sm font-semibold rounded-xl hover:bg-warm-800 transition-colors">
+                    關閉視窗
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="border-t border-warm-300 bg-warm-100/60 py-6 text-center text-xs text-warm-800/60">
         <p>© 2026 郭庭瑋 個人履歷網站. All rights reserved.</p>
@@ -635,6 +779,48 @@
 
     <!-- Interactive JavaScript -->
     <script>
+        const certDataList = [
+            {
+                tag: 'CERTIFICATE 01',
+                badge: '官方最高級別',
+                title: '日本語能力試驗 (JLPT N1)',
+                subTitle: 'N1 合格認證',
+                desc: '具備日語最高級別認證，能理解高難度商業日文、流暢進行商務簡報與跨國郵件對接。',
+                imgSrc: '',
+                link: ''
+            },
+            {
+                tag: 'CERTIFICATE 02',
+                badge: 'Gemini University Student',
+                title: 'Gemini University Student Certificate',
+                subTitle: 'Google Gemini 專業認證課程',
+                desc: '完成 Gemini AI 核心大學學生認證課程，具備 AI 應用與大型語言模型整合能力。',
+                imgSrc: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191055731',
+                link: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191055731'
+            },
+            {
+                tag: 'CERTIFICATE 03',
+                badge: 'Gemini Faculty',
+                title: 'Gemini Faculty Certificate',
+                subTitle: 'Google Gemini 教職專業認證',
+                desc: '具備講授與運用 Gemini AI 工具於教育與實務工作流之專業資格。',
+                imgSrc: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191065287?key=a34e64540de9bc0da10a7ba2a2aa3148c83950f838443e4d42f37b1d486f101c',
+                link: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191065287?key=a34e64540de9bc0da10a7ba2a2aa3148c83950f838443e4d42f37b1d486f101c'
+            },
+            {
+                tag: 'CERTIFICATE 04',
+                badge: 'Gemini Educator',
+                title: 'Gemini Educator Certificate',
+                subTitle: 'Google Gemini 教育者認證',
+                desc: '獲得 Google Gemini 數位教育專家資格認證，展現卓越的 AI 科技應用與知識傳達實力。',
+                imgSrc: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191071243',
+                link: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191071243'
+            }
+        ];
+
+        let currentCertIndex = 0;
+        let modalHoverTimer = null;
+
         function previewPhoto(event) {
             const reader = new FileReader();
             reader.onload = function() {
@@ -669,6 +855,123 @@
 
         function closeModal() {
             document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        function openCertIndex(index) {
+            cancelCloseCardModal();
+            if (index < 0) index = certDataList.length - 1;
+            if (index >= certDataList.length) index = 0;
+            
+            currentCertIndex = index;
+            const data = certDataList[index];
+
+            document.querySelectorAll('[data-cert-index]').forEach((el, idx) => {
+                if (idx === index) {
+                    el.classList.add('ring-2', 'ring-amberBrand-600', 'border-amberBrand-600');
+                } else {
+                    el.classList.remove('ring-2', 'ring-amberBrand-600', 'border-amberBrand-600');
+                }
+            });
+
+            document.getElementById('modalCardTag').innerText = data.tag || 'CERTIFICATE';
+            document.getElementById('modalCardBadge').innerText = data.badge || '';
+            document.getElementById('modalCardCounter').innerText = `${index + 1} / ${certDataList.length}`;
+            document.getElementById('modalCardTitle').innerText = data.title || '';
+            document.getElementById('modalCardSubTitle').innerText = data.subTitle || '';
+            document.getElementById('modalCardDesc').innerText = data.desc || '';
+
+            const imgContainer = document.getElementById('modalCardImgContainer');
+            const badgeContainer = document.getElementById('modalCardBadgeContainer');
+            const imgEl = document.getElementById('modalCardImg');
+            const linkBtn = document.getElementById('modalCardLink');
+
+            if (data.imgSrc) {
+                imgEl.src = data.imgSrc;
+                imgContainer.classList.remove('hidden');
+                badgeContainer.classList.add('hidden');
+            } else {
+                imgContainer.classList.add('hidden');
+                badgeContainer.classList.remove('hidden');
+            }
+
+            if (data.link) {
+                linkBtn.href = data.link;
+                linkBtn.classList.remove('hidden');
+            } else {
+                linkBtn.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('cardModal');
+            const modalBox = document.getElementById('modalContentBox');
+
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    if (modalBox) modalBox.classList.remove('scale-95');
+                }, 10);
+            }
+        }
+
+        function switchCert(direction) {
+            cancelCloseCardModal();
+            openCertIndex(currentCertIndex + direction);
+        }
+
+        function closeCardModal() {
+            cancelCloseCardModal();
+            const modal = document.getElementById('cardModal');
+            const modalBox = document.getElementById('modalContentBox');
+            if (modal) {
+                modal.classList.add('opacity-0');
+                if (modalBox) modalBox.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.querySelectorAll('[data-cert-index]').forEach(el => {
+                        el.classList.remove('ring-2', 'ring-amberBrand-600', 'border-amberBrand-600');
+                    });
+                }, 250);
+            }
+        }
+
+        function scheduleCloseCardModal() {
+            cancelCloseCardModal();
+            modalHoverTimer = setTimeout(() => {
+                closeCardModal();
+            }, 350);
+        }
+
+        function cancelCloseCardModal() {
+            if (modalHoverTimer) {
+                clearTimeout(modalHoverTimer);
+                modalHoverTimer = null;
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('cardModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                if (event.key === 'Escape') {
+                    closeCardModal();
+                } else if (event.key === 'ArrowLeft') {
+                    switchCert(-1);
+                } else if (event.key === 'ArrowRight') {
+                    switchCert(1);
+                }
+            } else if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        function scrollCertificates(direction) {
+            const container = document.getElementById('certContainer');
+            if (container) {
+                const scrollAmount = container.clientWidth;
+                container.scrollBy({
+                    left: direction * scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
         }
     </script>
 </body>
