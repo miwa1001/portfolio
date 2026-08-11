@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心流專注工坊 | 番茄鐘 × 白噪音 × 喝水提醒</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1c1917;
+            color: #fef3c7;
+        }
+
+        /* 暖色水波動畫效果 */
+        .wave-bg {
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.75) 100%);
+            transition: height 0.5s ease-in-out;
+        }
+
+        .wave-animation {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z' fill='%23f59e0b' opacity='0.35'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            background-size: 600px 30px;
+            animation: wave 10s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 600px; }
+        }
+
+        /* 暖色系擬真玻璃質感 */
+        .glass-panel {
+            background: rgba(28, 25, 23, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(251, 146, 60, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        /* 自訂 Slider 樣式 */
+        input[type="range"] {
+            accent-color: #f59e0b;
+        }
+
+        /* 浮動提示彈窗動畫 */
+        @keyframes toastIn {
+            0% { transform: translateY(20px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .toast-animate {
+            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-3 sm:p-6 md:p-8 bg-gradient-to-br from-stone-950 via-amber-950/30 to-stone-900 text-stone-100">
+
+    <header class="w-full max-w-6xl mx-auto flex items-center justify-end py-2 mb-6">
+        <div class="flex items-center gap-2">
+            <button id="settings-btn" class="p-2.5 rounded-xl glass-panel hover:bg-stone-800/80 transition text-amber-200 hover:text-white text-sm flex items-center gap-1.5 border border-amber-700/30">
+                <span>⚙️</span> <span class="hidden sm:inline font-semibold">設定</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 my-auto">
+
+        <!-- 1. 番茄鐘專注卡片 -->
+        <section class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-amber-400 tracking-wider uppercase flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 番茄鐘專注
+                </span>
+                <span id="session-count" class="text-xs font-semibold text-stone-300 bg-stone-900/80 px-2.5 py-1 rounded-full border border-amber-900/40">
+                    今日完成: 0 個
+                </span>
+            </div>
+
+            <!-- 模式切換 (專注 -> 長休 -> 短休) -->
+            <div class="grid grid-cols-3 gap-1.5 p-1 bg-stone-900/90 rounded-2xl mb-6 border border-stone-800">
+                <button id="mode-focus" class="mode-btn py-2 text-xs font-bold rounded-xl bg-amber-600 text-white transition-all shadow-md">專注</button>
+                <button id="mode-long" class="mode-btn py-2 text-xs font-bold rounded-xl text-stone-400 hover:text-white transition-all">長休</button>
+                <button id="mode-short" class="mode-btn py-2 text-xs font-bold rounded-xl text-stone-400 hover:text-white transition-all">短休</button>
+            </div>
+
+            <!-- 環形進度倒數計時 -->
+            <div class="relative w-56 h-56 mx-auto flex items-center justify-center my-2">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="112" cy="112" r="96" class="text-stone-800/80" stroke-width="10" stroke="currentColor" fill="transparent"/>
+                    <circle id="timer-progress" cx="112" cy="112" r="96" class="text-amber-500 transition-all duration-300" stroke-width="10" stroke-dasharray="603" stroke-dashoffset="0" stroke-linecap="round" stroke="currentColor" fill="transparent"/>
+                </svg>
+                <div class="absolute text-center">
+                    <div id="timer-display" class="text-4xl sm:text-5xl font-black tracking-tight text-amber-50 font-mono">25:00</div>
+                    <div id="timer-label" class="text-xs font-bold text-amber-300/80 mt-1 uppercase tracking-widest">Focus Mode</div>
+                </div>
+            </div>
+
+            <!-- 操作控制鍵 -->
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button id="timer-toggle-btn" class="flex-1 py-3.5 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-bold rounded-2xl transition shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 text-base">
+                    <span id="timer-btn-icon">▶</span> <span id="timer-btn-text">開始專注</span>
+                </button>
+                <button id="timer-reset-btn" class="p-3.5 bg-stone-800 hover:bg-stone-700 active:scale-95 text-amber-200 hover:text-white font-bold rounded-2xl transition border border-stone-700">
+                    🔄
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. 白噪音自然混音器卡片 -->
+        <section class="glass-panel rounded-3xl p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-orange-400 tracking-wider uppercase flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span> 原生聲景混音器
+                    </span>
+                    <button id="master-mute-btn" class="text-xs font-semibold text-stone-300 hover:text-white bg-stone-900/80 px-2.5 py-1 rounded-full border border-stone-800 transition">
+                        🔊 全部播放
+                    </button>
+                </div>
+
+                <p class="text-xs text-stone-400 mb-5">Web Audio 即時合成音景，隨心搭配屬於你的舒壓聲音。</p>
+
+                <!-- 4 種聲音控制 -->
+                <div class="space-y-4">
+                    <!-- 雨聲 -->
+                    <div class="bg-stone-900/70 p-3.5 rounded-2xl border border-stone-800/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">🌧️</span>
+                                <span class="text-xs font-bold text-stone-200">窗外細雨 (Rain)</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-rain" class="sr-only peer">
+                                <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                            </label>
+                        </div>
+                        <input type="range" id="vol-rain" min="0" max="1" step="0.01" value="0.5" class="w-full h-1.5 bg-stone-800 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- 海浪 -->
+                    <div class="bg-stone-900/70 p-3.5 rounded-2xl border border-stone-800/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">🌊</span>
+                                <span class="text-xs font-bold text-stone-200">蔚藍海浪 (Ocean)</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-ocean" class="sr-only peer">
+                                <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                            </label>
+                        </div>
+                        <input type="range" id="vol-ocean" min="0" max="1" step="0.01" value="0.4" class="w-full h-1.5 bg-stone-800 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- 營火 -->
+                    <div class="bg-stone-900/70 p-3.5 rounded-2xl border border-stone-800/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">🪵</span>
+                                <span class="text-xs font-bold text-stone-200">溫暖營火 (Campfire)</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-fire" class="sr-only peer">
+                                <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                        <input type="range" id="vol-fire" min="0" max="1" step="0.01" value="0.5" class="w-full h-1.5 bg-stone-800 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- 咖啡館棕噪 -->
+                    <div class="bg-stone-900/70 p-3.5 rounded-2xl border border-stone-800/80">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">☕</span>
+                                <span class="text-xs font-bold text-stone-200">靜謐棕噪 (Cozy Brown)</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-brown" class="sr-only peer">
+                                <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-600"></div>
+                            </label>
+                        </div>
+                        <input type="range" id="vol-brown" min="0" max="1" step="0.01" value="0.3" class="w-full h-1.5 bg-stone-800 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 喝水追蹤與提醒卡片 -->
+        <section class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-amber-300 tracking-wider uppercase flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> 喝水健康追蹤
+                    </span>
+                    <button id="water-reminder-toggle" class="text-xs font-semibold text-amber-200 bg-amber-950/80 border border-amber-800/60 px-2.5 py-1 rounded-full flex items-center gap-1">
+                        🔔 提醒: 開啟 (45m)
+                    </button>
+                </div>
+
+                <!-- 動態水杯視覺效果 -->
+                <div class="relative w-full h-44 bg-stone-950/80 rounded-2xl border border-stone-800 overflow-hidden flex flex-col justify-end p-4 mb-4">
+                    <!-- 液體波浪 -->
+                    <div id="water-fill" class="absolute bottom-0 left-0 right-0 wave-bg flex flex-col justify-start" style="height: 0%;">
+                        <div class="w-full h-4 wave-animation -mt-3"></div>
+                    </div>
+
+                    <!-- 數據顯示覆蓋 -->
+                    <div class="relative z-10 flex items-end justify-between">
+                        <div>
+                            <div class="text-3xl font-black text-amber-50 tracking-tight">
+                                <span id="water-current">0</span> <span class="text-sm font-bold text-amber-200/70">/ <span id="water-goal">2000</span> ml</span>
+                            </div>
+                            <div id="water-percent" class="text-xs font-bold text-amber-300 mt-0.5">完成度 0%</div>
+                        </div>
+                        <div class="text-3xl animate-bounce">💧</div>
+                    </div>
+                </div>
+
+                <!-- 快速加水按鈕 (簡潔無符號大按鈕) -->
+                <div id="water-presets-container" class="grid grid-cols-4 gap-2 mb-4">
+                    <!-- 由 JavaScript 動態生成 3 個預設按鈕 + 1 個自訂按鈕 -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-stone-400 pt-3 border-t border-stone-800">
+                <span id="next-water-time">下次提醒: 45 分鐘後</span>
+                <button id="reset-water-btn" class="text-stone-500 hover:text-stone-300 underline">重置今日水份</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto text-center py-4 text-xs text-stone-500">
+    </footer>
+
+    <!-- 設定 Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="glass-panel max-w-sm w-full rounded-3xl p-6 border border-stone-700 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">⚙️ 偏好設定</h3>
+
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-stone-300 mb-1">專注時間 (分鐘)</label>
+                    <input type="number" id="setting-focus" value="25" min="1" max="120" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-white font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-stone-300 mb-1">短暫休息時間 (分鐘)</label>
+                    <input type="number" id="setting-short" value="5" min="1" max="30" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-white font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-stone-300 mb-1">每日喝水目標 (ml)</label>
+                    <input type="number" id="setting-goal" value="2000" step="100" min="500" max="5000" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-white font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-stone-300 mb-1">快速喝水按鈕數值 (ml)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <input type="number" id="setting-preset-1" value="250" step="50" min="50" max="2000" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-2 py-2 text-white font-bold text-center">
+                        <input type="number" id="setting-preset-2" value="350" step="50" min="50" max="2000" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-2 py-2 text-white font-bold text-center">
+                        <input type="number" id="setting-preset-3" value="500" step="50" min="50" max="2000" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-2 py-2 text-white font-bold text-center">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-stone-300 mb-1">喝水提醒間隔 (分鐘)</label>
+                    <select id="setting-water-interval" class="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-white font-bold">
+                        <option value="30">30 分鐘</option>
+                        <option value="45" selected>45 分鐘</option>
+                        <option value="60">60 分鐘</option>
+                        <option value="90">90 分鐘</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-2 mt-6">
+                <button id="save-settings-btn" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 font-bold text-white rounded-xl transition">儲存變更</button>
+                <button id="close-settings-btn" class="py-2.5 px-4 bg-stone-800 hover:bg-stone-700 font-bold text-stone-300 rounded-xl transition">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自訂喝水量 Modal -->
+    <div id="custom-water-modal" class="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="glass-panel max-w-xs w-full rounded-3xl p-6 border border-amber-800/50 shadow-2xl">
+            <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">💧 輸入喝水量</h3>
+            <div class="mb-4">
+                <input type="number" id="custom-water-input" placeholder="例如: 180" min="1" max="3000" class="w-full bg-stone-900 border border-amber-900/60 rounded-xl px-3 py-2.5 text-white font-bold text-lg text-center focus:outline-none focus:border-amber-500">
+                <span class="text-xs text-stone-400 block text-center mt-1.5">單位：毫升 (ml)</span>
+            </div>
+            <div class="flex gap-2">
+                <button id="confirm-custom-water-btn" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 font-bold text-white rounded-xl transition">確認加水</button>
+                <button id="close-custom-water-btn" class="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 font-bold text-stone-300 rounded-xl transition">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮動通知 Toast Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2"></div>
+
+    <script>
+        // ==========================================
+        // 1. Web Audio 原生音效與白噪音合成器
+        // ==========================================
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.nodes = {
+                    rain: null,
+                    ocean: null,
+                    fire: null,
+                    brown: null
+                };
+                this.gains = {
+                    rain: null,
+                    ocean: null,
+                    fire: null,
+                    brown: null
+                };
+                this.masterGain = null;
+                this.isMasterMuted = false;
+            }
+
+            init() {
+                if (this.ctx) return;
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                this.masterGain = this.ctx.createGain();
+                this.masterGain.gain.value = 1;
+                this.masterGain.connect(this.ctx.destination);
+            }
+
+            // 產生白雜訊 Buffer
+            createNoiseBuffer() {
+                const bufferSize = 2 * this.ctx.sampleRate;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const output = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                return buffer;
+            }
+
+            // 🌧️ 雨聲合成器
+            startRain() {
+                this.init();
+                if (this.nodes.rain) return;
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer();
+                noise.loop = true;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 1200;
+
+                this.gains.rain = this.ctx.createGain();
+                this.gains.rain.gain.value = parseFloat(document.getElementById('vol-rain').value);
+
+                noise.connect(filter);
+                filter.connect(this.gains.rain);
+                this.gains.rain.connect(this.masterGain);
+
+                noise.start();
+                this.nodes.rain = noise;
+            }
+
+            stopRain() {
+                if (this.nodes.rain) {
+                    this.nodes.rain.stop();
+                    this.nodes.rain.disconnect();
+                    this.nodes.rain = null;
+                }
+            }
+
+            // 🌊 海浪合成器 (以 LFO 擺動 Filter)
+            startOcean() {
+                this.init();
+                if (this.nodes.ocean) return;
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer();
+                noise.loop = true;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 400;
+
+                // LFO (低頻振盪器控制海浪起伏)
+                const lfo = this.ctx.createOscillator();
+                lfo.frequency.value = 0.12; // 約 8 秒一次浪潮
+                const lfoGain = this.ctx.createGain();
+                lfoGain.gain.value = 300;
+
+                lfo.connect(lfoGain);
+                lfoGain.connect(filter.frequency);
+
+                this.gains.ocean = this.ctx.createGain();
+                this.gains.ocean.gain.value = parseFloat(document.getElementById('vol-ocean').value);
+
+                noise.connect(filter);
+                filter.connect(this.gains.ocean);
+                this.gains.ocean.connect(this.masterGain);
+
+                noise.start();
+                lfo.start();
+                this.nodes.ocean = { noise, lfo };
+            }
+
+            stopOcean() {
+                if (this.nodes.ocean) {
+                    this.nodes.ocean.noise.stop();
+                    this.nodes.ocean.lfo.stop();
+                    this.nodes.ocean = null;
+                }
+            }
+
+            // 🪵 營火柴火撞擊聲
+            startFire() {
+                this.init();
+                if (this.nodes.fire) return;
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer();
+                noise.loop = true;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 800;
+                filter.Q.value = 3;
+
+                this.gains.fire = this.ctx.createGain();
+                this.gains.fire.gain.value = parseFloat(document.getElementById('vol-fire').value);
+
+                noise.connect(filter);
+                filter.connect(this.gains.fire);
+                this.gains.fire.connect(this.masterGain);
+
+                noise.start();
+                this.nodes.fire = noise;
+            }
+
+            stopFire() {
+                if (this.nodes.fire) {
+                    this.nodes.fire.stop();
+                    this.nodes.fire.disconnect();
+                    this.nodes.fire = null;
+                }
+            }
+
+            // ☕ 棕色噪音 (Cozy Brown Noise)
+            startBrown() {
+                this.init();
+                if (this.nodes.brown) return;
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer();
+                noise.loop = true;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 350;
+
+                this.gains.brown = this.ctx.createGain();
+                this.gains.brown.gain.value = parseFloat(document.getElementById('vol-brown').value);
+
+                noise.connect(filter);
+                filter.connect(this.gains.brown);
+                this.gains.brown.connect(this.masterGain);
+
+                noise.start();
+                this.nodes.brown = noise;
+            }
+
+            stopBrown() {
+                if (this.nodes.brown) {
+                    this.nodes.brown.stop();
+                    this.nodes.brown.disconnect();
+                    this.nodes.brown = null;
+                }
+            }
+
+            // 播放完成提示鐘聲
+            playChime() {
+                this.init();
+                const now = this.ctx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, now + i * 0.12);
+                    gain.gain.linearRampToValueAtTime(0.2, now + i * 0.12 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 1.2);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + i * 0.12);
+                    osc.stop(now + i * 0.12 + 1.2);
+                });
+            }
+
+            // 喝水提示水滴音效
+            playWaterDrop() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.12);
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.12);
+            }
+        }
+
+        const soundEngine = new SoundEngine();
+
+        // ==========================================
+        // 2. 狀態管理與 LocalStorage
+        // ==========================================
+        let config = {
+            focusTime: 25,
+            shortBreak: 5,
+            longBreak: 15,
+            waterGoal: 2000,
+            waterInterval: 45,
+            waterPresets: [250, 350, 500]
+        };
+
+        let timerState = {
+            mode: 'focus', // 'focus', 'short', 'long'
+            timeLeft: 25 * 60,
+            isRunning: false,
+            intervalId: null,
+            completedToday: 0
+        };
+
+        let waterState = {
+            current: 0,
+            lastDate: new Date().toISOString().split('T')[0],
+            reminderActive: true,
+            reminderTimerId: null,
+            nextReminderMinutes: 45
+        };
+
+        // 載入本機紀錄
+        function loadSavedData() {
+            const savedConfig = localStorage.getItem('zen_hub_config');
+            if (savedConfig) {
+                config = { ...config, ...JSON.parse(savedConfig) };
+            }
+            if (!config.waterPresets || !Array.isArray(config.waterPresets)) {
+                config.waterPresets = [250, 350, 500];
+            }
+
+            const savedWater = localStorage.getItem('zen_hub_water');
+            if (savedWater) {
+                const parsed = JSON.parse(savedWater);
+                const today = new Date().toISOString().split('T')[0];
+                if (parsed.lastDate === today) {
+                    waterState.current = parsed.current;
+                } else {
+                    waterState.current = 0; // 隔天自動清空
+                    waterState.lastDate = today;
+                }
+            }
+
+            const savedStats = localStorage.getItem('zen_hub_stats');
+            if (savedStats) {
+                const parsed = JSON.parse(savedStats);
+                const today = new Date().toISOString().split('T')[0];
+                if (parsed.date === today) {
+                    timerState.completedToday = parsed.count || 0;
+                }
+            }
+
+            updateWaterUI();
+            updateSessionUI();
+        }
+
+        // ==========================================
+        // 3. 番茄鐘邏輯
+        // ==========================================
+        const timerDisplay = document.getElementById('timer-display');
+        const timerLabel = document.getElementById('timer-label');
+        const timerToggleBtn = document.getElementById('timer-toggle-btn');
+        const timerBtnIcon = document.getElementById('timer-btn-icon');
+        const timerBtnText = document.getElementById('timer-btn-text');
+        const timerProgressBar = document.getElementById('timer-progress');
+
+        function updateTimerUI() {
+            const minutes = Math.floor(timerState.timeLeft / 60);
+            const seconds = timerState.timeLeft % 60;
+            const formattedStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timerDisplay.textContent = formattedStr;
+            document.title = `${formattedStr} - Zen Flow Hub`;
+
+            // 環形進度計算 (R=96, 周長約 603)
+            let totalSec = config.focusTime * 60;
+            if (timerState.mode === 'short') totalSec = config.shortBreak * 60;
+            if (timerState.mode === 'long') totalSec = config.longBreak * 60;
+
+            const offset = 603 - (timerState.timeLeft / totalSec) * 603;
+            timerProgressBar.style.strokeDashoffset = offset;
+        }
+
+        function switchMode(mode) {
+            timerState.mode = mode;
+            pauseTimer();
+
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400');
+            });
+
+            if (mode === 'focus') {
+                timerState.timeLeft = config.focusTime * 60;
+                timerLabel.textContent = 'Focus Mode';
+                document.getElementById('mode-focus').classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+            } else if (mode === 'short') {
+                timerState.timeLeft = config.shortBreak * 60;
+                timerLabel.textContent = 'Short Break';
+                document.getElementById('mode-short').classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+            } else if (mode === 'long') {
+                timerState.timeLeft = config.longBreak * 60;
+                timerLabel.textContent = 'Long Break';
+                document.getElementById('mode-long').classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+            }
+            updateTimerUI();
+        }
+
+        function toggleTimer() {
+            if (timerState.isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            soundEngine.init();
+            timerState.isRunning = true;
+            timerBtnIcon.textContent = '⏸';
+            timerBtnText.textContent = '暫停';
+
+            timerState.intervalId = setInterval(() => {
+                if (timerState.timeLeft > 0) {
+                    timerState.timeLeft--;
+                    updateTimerUI();
+                } else {
+                    onTimerComplete();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            timerState.isRunning = false;
+            clearInterval(timerState.intervalId);
+            timerBtnIcon.textContent = '▶';
+            timerBtnText.textContent = timerState.mode === 'focus' ? '開始專注' : '開始休息';
+        }
+
+        function resetTimer() {
+            switchMode(timerState.mode);
+        }
+
+        function onTimerComplete() {
+            pauseTimer();
+            soundEngine.playChime();
+
+            if (timerState.mode === 'focus') {
+                timerState.completedToday++;
+                updateSessionUI();
+                showToast('🎉 專注完成！', '太棒了，給自己一個短暫休息吧！');
+                switchMode('short');
+            } else {
+                showToast('☕ 休息結束！', '準備好迎接下一個專注時段了嗎？');
+                switchMode('focus');
+            }
+        }
+
+        function updateSessionUI() {
+            document.getElementById('session-count').textContent = `今日完成: ${timerState.completedToday} 個`;
+            const today = new Date().toISOString().split('T')[0];
+            localStorage.setItem('zen_hub_stats', JSON.stringify({ date: today, count: timerState.completedToday }));
+        }
+
+        // ==========================================
+        // 4. 喝水追蹤邏輯
+        // ==========================================
+        function addWater(amount) {
+            soundEngine.playWaterDrop();
+            waterState.current = Math.min(waterState.current + amount, config.waterGoal * 1.5);
+            updateWaterUI();
+            saveWaterData();
+
+            showToast('💧 記錄成功', `已補充 ${amount} ml 水份！`);
+        }
+
+        function renderWaterButtons() {
+            const container = document.getElementById('water-presets-container');
+            if (!container) return;
+
+            const presets = config.waterPresets || [250, 350, 500];
+            let html = presets.map(amount => `
+                <button class="add-water-btn py-4 px-1 bg-stone-900/90 hover:bg-amber-950/60 border border-stone-800 hover:border-amber-500/60 rounded-2xl text-xs sm:text-sm font-black text-amber-200 transition active:scale-95 flex flex-col items-center justify-center gap-0.5 shadow-md hover:shadow-amber-900/30" data-amount="${amount}">
+                    <span>+${amount}</span>
+                    <span class="text-[10px] font-normal text-amber-300/70">ml</span>
+                </button>
+            `).join('');
+
+            html += `
+                <button id="custom-water-btn" class="py-4 px-1 bg-stone-900/90 hover:bg-amber-950/60 border border-amber-800/60 hover:border-amber-500/60 rounded-2xl text-xs sm:text-sm font-black text-amber-400 transition active:scale-95 flex flex-col items-center justify-center gap-0.5 shadow-md hover:shadow-amber-900/30">
+                    <span>+自訂</span>
+                    <span class="text-[10px] font-normal text-amber-400/70">ml</span>
+                </button>
+            `;
+
+            container.innerHTML = html;
+
+            container.querySelectorAll('.add-water-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const amount = parseInt(btn.getAttribute('data-amount'));
+                    if (amount > 0) addWater(amount);
+                });
+            });
+
+            document.getElementById('custom-water-btn').addEventListener('click', openCustomWaterModal);
+        }
+
+        const customWaterModal = document.getElementById('custom-water-modal');
+        const customWaterInput = document.getElementById('custom-water-input');
+
+        function openCustomWaterModal() {
+            customWaterInput.value = '';
+            customWaterModal.classList.remove('hidden');
+            customWaterInput.focus();
+        }
+
+        function closeCustomWaterModal() {
+            customWaterModal.classList.add('hidden');
+        }
+
+        function submitCustomWater() {
+            const amount = parseInt(customWaterInput.value);
+            if (amount && amount > 0) {
+                addWater(amount);
+                closeCustomWaterModal();
+            } else {
+                showToast('⚠️ 請輸入有效水量', '請輸入大於 0 的毫升數');
+            }
+        }
+
+        function updateWaterUI() {
+            const currentEl = document.getElementById('water-current');
+            const goalEl = document.getElementById('water-goal');
+            const percentEl = document.getElementById('water-percent');
+            const fillEl = document.getElementById('water-fill');
+
+            currentEl.textContent = waterState.current;
+            goalEl.textContent = config.waterGoal;
+
+            const percentage = Math.min(Math.round((waterState.current / config.waterGoal) * 100), 100);
+            percentEl.textContent = `完成度 ${percentage}%`;
+            fillEl.style.height = `${percentage}%`;
+        }
+
+        function saveWaterData() {
+            localStorage.setItem('zen_hub_water', JSON.stringify({
+                current: waterState.current,
+                lastDate: waterState.lastDate
+            }));
+        }
+
+        function startWaterReminder() {
+            clearInterval(waterState.reminderTimerId);
+            const intervalMs = config.waterInterval * 60 * 1000;
+
+            waterState.reminderTimerId = setInterval(() => {
+                soundEngine.playWaterDrop();
+                showToast('💧 喝水時間到囉！', '別忘了補充一口水，保持頭腦清晰！');
+            }, intervalMs);
+
+            document.getElementById('next-water-time').textContent = `下次提醒: ${config.waterInterval} 分鐘後`;
+        }
+
+        // ==========================================
+        // 5. Toast 提示彈窗
+        // ==========================================
+        function showToast(title, msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'glass-panel p-4 rounded-2xl border border-amber-500/40 text-white shadow-xl flex items-start gap-3 min-w-[260px] toast-animate';
+            toast.innerHTML = `
+                <div class="text-xl">🔔</div>
+                <div>
+                    <div class="font-bold text-sm text-amber-200">${title}</div>
+                    <div class="text-xs text-stone-300 mt-0.5">${msg}</div>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // ==========================================
+        // 6. 事件監聽設定
+        // ==========================================
+        document.getElementById('mode-focus').addEventListener('click', () => switchMode('focus'));
+        document.getElementById('mode-short').addEventListener('click', () => switchMode('short'));
+        document.getElementById('mode-long').addEventListener('click', () => switchMode('long'));
+        timerToggleBtn.addEventListener('click', toggleTimer);
+        document.getElementById('timer-reset-btn').addEventListener('click', resetTimer);
+
+        // 白噪音 Swithes
+        document.getElementById('toggle-rain').addEventListener('change', (e) => e.target.checked ? soundEngine.startRain() : soundEngine.stopRain());
+        document.getElementById('toggle-ocean').addEventListener('change', (e) => e.target.checked ? soundEngine.startOcean() : soundEngine.stopOcean());
+        document.getElementById('toggle-fire').addEventListener('change', (e) => e.target.checked ? soundEngine.startFire() : soundEngine.stopFire());
+        document.getElementById('toggle-brown').addEventListener('change', (e) => e.target.checked ? soundEngine.startBrown() : soundEngine.stopBrown());
+
+        // 白噪音 Volume
+        document.getElementById('vol-rain').addEventListener('input', (e) => soundEngine.gains.rain && (soundEngine.gains.rain.gain.value = parseFloat(e.target.value)));
+        document.getElementById('vol-ocean').addEventListener('input', (e) => soundEngine.gains.ocean && (soundEngine.gains.ocean.gain.value = parseFloat(e.target.value)));
+        document.getElementById('vol-fire').addEventListener('input', (e) => soundEngine.gains.fire && (soundEngine.gains.fire.gain.value = parseFloat(e.target.value)));
+        document.getElementById('vol-brown').addEventListener('input', (e) => soundEngine.gains.brown && (soundEngine.gains.brown.gain.value = parseFloat(e.target.value)));
+
+        // 自訂喝水量 Modal 事件
+        document.getElementById('confirm-custom-water-btn').addEventListener('click', submitCustomWater);
+        document.getElementById('close-custom-water-btn').addEventListener('click', closeCustomWaterModal);
+        customWaterInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitCustomWater();
+        });
+
+        document.getElementById('reset-water-btn').addEventListener('click', () => {
+            waterState.current = 0;
+            updateWaterUI();
+            saveWaterData();
+            showToast('🔄 已重置', '今日喝水紀錄已歸零');
+        });
+
+        // 設定 Modal
+        const settingsModal = document.getElementById('settings-modal');
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            document.getElementById('setting-focus').value = config.focusTime;
+            document.getElementById('setting-short').value = config.shortBreak;
+            document.getElementById('setting-goal').value = config.waterGoal;
+            document.getElementById('setting-water-interval').value = config.waterInterval;
+            document.getElementById('setting-preset-1').value = config.waterPresets[0] || 250;
+            document.getElementById('setting-preset-2').value = config.waterPresets[1] || 350;
+            document.getElementById('setting-preset-3').value = config.waterPresets[2] || 500;
+            settingsModal.classList.remove('hidden');
+        });
+
+        document.getElementById('close-settings-btn').addEventListener('click', () => {
+            settingsModal.classList.add('hidden');
+        });
+
+        document.getElementById('save-settings-btn').addEventListener('click', () => {
+            config.focusTime = parseInt(document.getElementById('setting-focus').value) || 25;
+            config.shortBreak = parseInt(document.getElementById('setting-short').value) || 5;
+            config.waterGoal = parseInt(document.getElementById('setting-goal').value) || 2000;
+            config.waterInterval = parseInt(document.getElementById('setting-water-interval').value) || 45;
+
+            const p1 = parseInt(document.getElementById('setting-preset-1').value) || 250;
+            const p2 = parseInt(document.getElementById('setting-preset-2').value) || 350;
+            const p3 = parseInt(document.getElementById('setting-preset-3').value) || 500;
+            config.waterPresets = [p1, p2, p3];
+
+            localStorage.setItem('zen_hub_config', JSON.stringify(config));
+            settingsModal.classList.add('hidden');
+
+            switchMode(timerState.mode);
+            updateWaterUI();
+            renderWaterButtons();
+            startWaterReminder();
+            showToast('⚙️ 設定已更新', '新的時長與目標已成功套用！');
+        });
+
+        // 頁面初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            updateTimerUI();
+            renderWaterButtons();
+            startWaterReminder();
+        });
+    </script>
+</body>
+</html>
