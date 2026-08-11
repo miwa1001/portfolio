@@ -433,15 +433,14 @@
                 <span class="text-xs text-warm-800/50 font-mono tracking-wider">CERTIFICATIONS</span>
             </div>
 
-            <!-- Carousel Wrapper with Mouseleave Auto Close -->
-            <div class="relative group px-1" onmouseleave="scheduleCloseCardModal()">
+            <!-- Carousel Wrapper -->
+            <div class="relative group px-1">
                 <!-- Cert Cards Horizontal Container -->
                 <div id="certContainer" class="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 no-scrollbar">
                     
                     <!-- Cert 1: JLPT N1 -->
                     <div data-cert-index="0"
-                         onmouseenter="openCertIndex(0)" 
-                         onmouseleave="scheduleCloseCardModal()"
+                         onclick="openCertIndex(0)"
                          class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border-2 border-amber-300/80 p-5 shadow-sm card-hover flex flex-col justify-between space-y-4 relative overflow-hidden cursor-pointer group/card transition-all">
                         <div class="absolute -right-8 -top-8 w-20 h-20 bg-amber-100 rounded-full opacity-50"></div>
                         <div class="space-y-3 relative z-10">
@@ -467,15 +466,14 @@
                         <div class="pt-3 border-t border-warm-200/80 flex items-center justify-between text-xs text-warm-800/70 relative z-10">
                             <span class="font-medium text-emerald-700"><i class="fa-solid fa-circle-check"></i> 已取得證照</span>
                             <span class="text-amberBrand-700 font-semibold text-[11px] group-hover/card:underline flex items-center gap-1">
-                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停即可預覽
+                                <i class="fa-solid fa-magnifying-glass text-[10px]"></i> 點擊查看詳情
                             </span>
                         </div>
                     </div>
 
                     <!-- Cert 2: Accredible Certificate 1 -->
                     <div data-cert-index="1"
-                         onmouseenter="openCertIndex(1)"
-                         onmouseleave="scheduleCloseCardModal()"
+                         onclick="openCertIndex(1)"
                          class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
                         <div class="w-full flex justify-between items-center mb-2">
                             <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 02</span>
@@ -487,26 +485,21 @@
                             <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191055731" 
                                  alt="Accredible Certificate 191055731" 
                                  class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
-                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
-                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
-                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
-                            </div>
                         </div>
 
                         <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
                             <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
-                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                                <i class="fa-solid fa-magnifying-glass text-[10px]"></i> 點擊放大
                             </span>
                             <span class="text-amberBrand-700 font-medium text-[11px]">
-                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                                查看詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
                             </span>
                         </div>
                     </div>
 
                     <!-- Cert 3: Accredible Certificate 2 -->
                     <div data-cert-index="2"
-                         onmouseenter="openCertIndex(2)"
-                         onmouseleave="scheduleCloseCardModal()"
+                         onclick="openCertIndex(2)"
                          class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
                         <div class="w-full flex justify-between items-center mb-2">
                             <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 03</span>
@@ -518,26 +511,21 @@
                             <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191065287?key=a34e64540de9bc0da10a7ba2a2aa3148c83950f838443e4d42f37b1d486f101c" 
                                  alt="Accredible Certificate 191065287" 
                                  class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
-                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
-                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
-                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
-                            </div>
                         </div>
 
                         <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
                             <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
-                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                                <i class="fa-solid fa-magnifying-glass text-[10px]"></i> 點擊放大
                             </span>
                             <span class="text-amberBrand-700 font-medium text-[11px]">
-                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                                查看詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
                             </span>
                         </div>
                     </div>
 
                     <!-- Cert 4: Accredible Certificate 3 -->
                     <div data-cert-index="3"
-                         onmouseenter="openCertIndex(3)"
-                         onmouseleave="scheduleCloseCardModal()"
+                         onclick="openCertIndex(3)"
                          class="snap-start shrink-0 w-[calc(100%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] bg-warm-50 rounded-2xl border border-warm-200/80 p-4 shadow-sm card-hover flex flex-col justify-between items-center text-center cursor-pointer group/card transition-all">
                         <div class="w-full flex justify-between items-center mb-2">
                             <span class="text-[10px] text-amberBrand-700 font-mono font-bold">CERTIFICATE 04</span>
@@ -549,18 +537,14 @@
                             <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/191071243" 
                                  alt="Accredible Certificate 191071243" 
                                  class="max-h-44 w-auto rounded shadow-sm object-contain transition-transform duration-300 ease-out group-hover/card:scale-105" />
-                            <div class="absolute inset-0 bg-warm-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center text-white gap-2">
-                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
-                                <span class="text-xs font-semibold">移至卡片即可預覽</span>
-                            </div>
                         </div>
 
                         <div class="w-full pt-2 border-t border-warm-200/80 flex items-center justify-between">
                             <span class="text-warm-800/70 font-medium text-[11px] flex items-center gap-1 group-hover/card:text-amberBrand-700">
-                                <i class="fa-solid fa-expand text-[10px]"></i> 懸停預覽
+                                <i class="fa-solid fa-magnifying-glass text-[10px]"></i> 點擊放大
                             </span>
                             <span class="text-amberBrand-700 font-medium text-[11px]">
-                                查看證書詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                                查看詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i>
                             </span>
                         </div>
                     </div>
@@ -691,81 +675,79 @@
 
     <!-- Enlarged Certificate Card Modal with Navigation -->
     <div id="cardModal" 
-         onmouseenter="cancelCloseCardModal()" 
-         onmouseleave="scheduleCloseCardModal()" 
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none hidden transition-all duration-300 opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 hidden transition-all duration-300 opacity-0"
          onclick="closeCardModal()">
         
         <!-- Backdrop Tint -->
-        <div class="absolute inset-0 bg-warm-900/50 backdrop-blur-sm pointer-events-none"></div>
+        <div class="absolute inset-0 bg-warm-900/60 backdrop-blur-sm"></div>
 
-        <div id="modalContentBox" class="bg-warm-50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 border-2 border-warm-200 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto relative pointer-events-auto transition-transform duration-200 scale-95 my-auto" onclick="event.stopPropagation()">
+        <div id="modalContentBox" class="bg-warm-50 rounded-2xl max-w-5xl xl:max-w-6xl w-[90vw] h-[88vh] px-6 sm:px-12 md:px-16 py-4 sm:py-6 border-2 border-warm-200 shadow-2xl space-y-2 sm:space-y-3 flex flex-col justify-between relative z-10 transition-transform duration-200 scale-95 my-auto overflow-hidden" onclick="event.stopPropagation()">
             
             <!-- Modal Close Button -->
-            <button onclick="closeCardModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 text-warm-800/60 hover:text-warm-900 w-9 h-9 rounded-full bg-warm-200/60 hover:bg-warm-200 flex items-center justify-center text-lg transition-colors z-20" title="關閉預覽">
+            <button onclick="closeCardModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-warm-800/60 hover:text-warm-900 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-warm-200/60 hover:bg-warm-200 flex items-center justify-center text-base sm:text-lg transition-colors z-20" title="關閉預覽">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Previous / Next Floating Arrow Buttons -->
-            <button onclick="switchCert(-1)" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="上一張證書 (←)">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
+            <button onclick="switchCert(-1)" class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="上一張證書 (←)">
+                <i class="fa-solid fa-chevron-left text-xs sm:text-sm"></i>
             </button>
-            <button onclick="switchCert(1)" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="下一張證書 (→)">
-                <i class="fa-solid fa-chevron-right text-sm"></i>
+            <button onclick="switchCert(1)" class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-warm-900/80 hover:bg-warm-900 text-white flex items-center justify-center shadow-lg transition-all z-20 hover:scale-110" title="下一張證書 (→)">
+                <i class="fa-solid fa-chevron-right text-xs sm:text-sm"></i>
             </button>
 
             <!-- Card Header -->
-            <div class="border-b border-warm-200 pb-4 space-y-1 pr-8 pl-4 sm:pl-6">
+            <div class="border-b border-warm-200 pb-2 space-y-1 pr-8 shrink-0">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
-                        <span id="modalCardTag" class="text-xs font-mono font-bold text-amberBrand-700 bg-amber-100 px-2.5 py-0.5 rounded-md border border-amber-200">
+                        <span id="modalCardTag" class="text-[11px] sm:text-xs font-mono font-bold text-amberBrand-700 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-200">
                             CERTIFICATE
                         </span>
-                        <span id="modalCardBadge" class="text-xs font-semibold text-warm-800 bg-warm-200 px-2 py-0.5 rounded-md">
+                        <span id="modalCardBadge" class="text-[11px] sm:text-xs font-semibold text-warm-800 bg-warm-200 px-2 py-0.5 rounded-md">
                             Badge
                         </span>
                     </div>
-                    <span id="modalCardCounter" class="text-xs font-mono font-semibold text-warm-800/60 bg-warm-200/80 px-2.5 py-0.5 rounded-md">
+                    <span id="modalCardCounter" class="text-[11px] sm:text-xs font-mono font-semibold text-warm-800/60 bg-warm-200/80 px-2.5 py-0.5 rounded-md">
                         1 / 4
                     </span>
                 </div>
-                <h3 id="modalCardTitle" class="text-xl sm:text-2xl font-bold text-warm-900 pt-1">
+                <h3 id="modalCardTitle" class="text-base sm:text-lg font-bold text-warm-900 pt-0.5 leading-snug">
                     證書標題
                 </h3>
-                <p id="modalCardSubTitle" class="text-xs sm:text-sm font-medium text-amberBrand-700">
+                <p id="modalCardSubTitle" class="text-xs font-medium text-amberBrand-700">
                     副標題
                 </p>
             </div>
 
             <!-- Card Body / Image Preview Area -->
-            <div id="modalCardImgContainer" class="bg-warm-100/80 p-3 sm:p-4 rounded-xl border border-warm-200 flex items-center justify-center min-h-[220px]">
-                <img id="modalCardImg" src="" alt="Enlarged Certificate Card" class="max-h-[48vh] w-auto max-w-full rounded-lg shadow-md object-contain border border-warm-200/50 transition-all duration-300">
+            <div id="modalCardImgContainer" class="bg-warm-100/80 p-3 sm:p-5 rounded-xl border border-warm-200 flex items-center justify-center flex-1 min-h-0 w-full overflow-hidden">
+                <img id="modalCardImg" src="" alt="Enlarged Certificate Card" class="h-full w-full object-contain rounded-lg shadow-md border border-warm-200/50 transition-all duration-300">
             </div>
 
             <!-- Text Fallback Container for JLPT -->
-            <div id="modalCardBadgeContainer" class="hidden bg-amber-50 p-6 rounded-xl border border-amber-200 text-center space-y-3">
-                <div class="w-16 h-16 bg-amberBrand-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto shadow-md">
+            <div id="modalCardBadgeContainer" class="hidden bg-amber-50 p-6 rounded-xl border border-amber-200 text-center space-y-2 shrink-0">
+                <div class="w-12 h-12 bg-amberBrand-600 text-white rounded-xl flex items-center justify-center text-2xl font-bold mx-auto shadow-md">
                     <i class="fa-solid fa-award"></i>
                 </div>
-                <h4 class="text-lg font-bold text-warm-900">日本語能力試驗 (JLPT N1)</h4>
+                <h4 class="text-base font-bold text-warm-900">日本語能力試驗 (JLPT N1)</h4>
                 <p class="text-xs text-amberBrand-700 font-semibold">日本國際教育支援協會 / 國際交流基金會</p>
             </div>
 
             <!-- Card Description -->
-            <p id="modalCardDesc" class="text-xs sm:text-sm text-warm-800/90 leading-relaxed bg-warm-100/50 p-4 rounded-xl border border-warm-200/60">
+            <p id="modalCardDesc" class="text-xs sm:text-sm text-warm-800/90 leading-relaxed bg-warm-100/50 p-2.5 rounded-xl border border-warm-200/60 shrink-0">
                 證書詳細說明資訊...
             </p>
 
             <!-- Card Actions Footer -->
-            <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-warm-200/80">
-                <a id="modalCardLink" href="#" target="_blank" class="inline-flex items-center gap-2 bg-amberBrand-600 text-white px-5 py-2.5 rounded-xl font-medium text-xs sm:text-sm hover:bg-amberBrand-700 transition-all shadow-sm">
+            <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-warm-200/80 shrink-0">
+                <a id="modalCardLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 bg-amberBrand-600 text-white px-4 py-2 rounded-xl font-medium text-xs hover:bg-amberBrand-700 transition-all shadow-sm">
                     <span>開啟原圖 / 官方檢視</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                 </a>
-                <div class="text-xs text-warm-800/50 hidden sm:block">
+                <div class="text-[11px] text-warm-800/50 hidden sm:block">
                     <i class="fa-solid fa-keyboard mr-1"></i> 可使用鍵盤左右鍵切換
                 </div>
-                <button onclick="closeCardModal()" class="ml-auto px-6 py-2.5 bg-warm-900 text-warm-50 text-xs sm:text-sm font-semibold rounded-xl hover:bg-warm-800 transition-colors">
+                <button onclick="closeCardModal()" class="ml-auto px-5 py-2 bg-warm-900 text-warm-50 text-xs font-semibold rounded-xl hover:bg-warm-800 transition-colors">
                     關閉視窗
                 </button>
             </div>
@@ -819,7 +801,6 @@
         ];
 
         let currentCertIndex = 0;
-        let modalHoverTimer = null;
 
         function previewPhoto(event) {
             const reader = new FileReader();
@@ -858,7 +839,6 @@
         }
 
         function openCertIndex(index) {
-            cancelCloseCardModal();
             if (index < 0) index = certDataList.length - 1;
             if (index >= certDataList.length) index = 0;
             
@@ -914,12 +894,10 @@
         }
 
         function switchCert(direction) {
-            cancelCloseCardModal();
             openCertIndex(currentCertIndex + direction);
         }
 
         function closeCardModal() {
-            cancelCloseCardModal();
             const modal = document.getElementById('cardModal');
             const modalBox = document.getElementById('modalContentBox');
             if (modal) {
@@ -931,20 +909,6 @@
                         el.classList.remove('ring-2', 'ring-amberBrand-600', 'border-amberBrand-600');
                     });
                 }, 250);
-            }
-        }
-
-        function scheduleCloseCardModal() {
-            cancelCloseCardModal();
-            modalHoverTimer = setTimeout(() => {
-                closeCardModal();
-            }, 350);
-        }
-
-        function cancelCloseCardModal() {
-            if (modalHoverTimer) {
-                clearTimeout(modalHoverTimer);
-                modalHoverTimer = null;
             }
         }
 
