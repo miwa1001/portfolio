@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -66,7 +67,6 @@ h1 { font-size: 25px; margin: 0; }
 }
 .primary:hover { opacity: 0.92; }
 
-/* 月份選擇列 (年月字體加大 10px 至 29px) */
 .monthbar {
   display: flex;
   align-items: center;
@@ -123,7 +123,6 @@ h1 { font-size: 25px; margin: 0; }
   height: 100%;
 }
 
-/* 標題字體加大 8px 至 26px */
 .section-title {
   display: flex;
   justify-content: space-between;
@@ -183,10 +182,8 @@ h1 { font-size: 25px; margin: 0; }
 }
 .smallbtn.danger { background: #fff0f1; color: var(--red); }
 
-/* 圓餅圖樣式 */
 .chartbox { display: flex; justify-content: center; align-items: center; min-height: 380px; padding: 10px 0; }
-.pie { width: 360px; height: 360px; border-radius: 50%; background: #e9edf3; position: relative; border: 2px solid #ffffff; flex-shrink: 0; }
-.pie:after { content: ""; position: absolute; inset: 66px; background: var(--card); border-radius: 50%; border: 2px solid #ffffff; }
+.pie { width: 360px; height: 360px; border-radius: 50%; position: relative; flex-shrink: 0; }
 .pie-center {
   position: absolute;
   z-index: 1;
@@ -201,13 +198,76 @@ h1 { font-size: 25px; margin: 0; }
 .pie-center span { font-size: 16px; color: var(--muted); line-height: 1.2; }
 .pie-center b { display: block; font-size: 26px; color: var(--text); margin-top: 4px; line-height: 1.2; }
 
+/* 圓餅圖區塊互動樣式 */
+.pie-slice {
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s, stroke 0.2s;
+  transform-origin: 180px 180px;
+}
+.pie-slice:hover {
+  opacity: 0.88;
+  transform: scale(1.03);
+}
+.pie-slice.dimmed {
+  opacity: 0.3;
+}
+.pie-slice.dimmed:hover {
+  opacity: 0.65;
+}
+.pie-slice.selected {
+  opacity: 1;
+  stroke: #ffffff !important;
+  stroke-width: 3px !important;
+  transform: scale(1.04);
+}
+
+/* 懸浮提示視窗 */
+.pie-tooltip {
+  position: absolute;
+  padding: 8px 14px;
+  background: rgba(24, 34, 48, 0.92);
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transform: translate(-50%, -125%);
+  transition: opacity 0.15s ease;
+  opacity: 0;
+  z-index: 10;
+  display: none;
+}
+.pie-tooltip.show {
+  display: block;
+  opacity: 1;
+}
+
 .legend { display: grid; gap: 9px; margin-top: 10px; }
-.legend-row { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  border: 1px solid transparent;
+}
+.legend-row:hover {
+  background: rgba(91, 103, 241, 0.08);
+}
+.legend-row.selected {
+  background: rgba(91, 103, 241, 0.15);
+  font-weight: 800;
+  border-color: var(--primary);
+}
 .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--border); }
 .legend-row span:nth-child(2) { flex: 1; }
 .legend-row .val { color: var(--muted); }
 
-/* 近7日支出圖表 */
 .bars { display: flex; align-items: flex-end; gap: 6px; height: 230px; padding: 15px 5px 5px; }
 .bar-wrap { height: 100%; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 8px; }
 .bar {
@@ -221,7 +281,6 @@ h1 { font-size: 25px; margin: 0; }
 .bar-label { font-size: 15px; color: var(--muted); }
 .empty { text-align: center; padding: 35px 10px; color: var(--muted); }
 
-/* Modal 彈窗樣式 */
 .modal {
   position: fixed;
   inset: 0;
@@ -288,7 +347,6 @@ h1 { font-size: 25px; margin: 0; }
   .month-label { font-size: 23px; }
   .section-title h2 { font-size: 22px; }
   .pie { width: 280px; height: 280px; }
-  .pie:after { inset: 52px; }
   .chartbox { min-height: 300px; }
 }
 </style>
@@ -348,25 +406,29 @@ h1 { font-size: 25px; margin: 0; }
 
       <section class="card" style="flex: 1; display: flex; flex-direction: column;">
         <div class="section-title"><h2>支出分類</h2></div>
-        <div class="chartbox" style="flex: 1;"><div class="pie" id="pie"><div class="pie-center"><span>本月支出</span><b id="pieTotal">$0</b></div></div></div>
+        <div class="chartbox" style="flex: 1;">
+          <div class="pie" id="pie">
+            <svg id="pieSvg" viewBox="0 0 360 360" style="width: 100%; height: 100%; display: block; overflow: visible;"></svg>
+            <div class="pie-center"><span>本月支出</span><b id="pieTotal">$0</b></div>
+            <!-- 懸浮提示視窗 -->
+            <div class="pie-tooltip" id="pieTooltip"></div>
+          </div>
+        </div>
         <div class="legend" id="legend"></div>
       </section>
     </div>
   </div>
 </div>
 
-<!-- 編輯/新增記帳 Modal -->
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="dialog">
     <h2 id="modalTitle">新增一筆記帳</h2>
     <form class="form" onsubmit="saveTx(event)">
-      <!-- 1. 品項 -->
       <div class="field">
         <label>品項</label>
         <input id="item" placeholder="" required maxlength="40">
       </div>
 
-      <!-- 2. 類型 & 金額併排 -->
       <div class="form-row">
         <div class="field">
           <label>類型</label>
@@ -390,7 +452,6 @@ h1 { font-size: 25px; margin: 0; }
         </div>
       </div>
 
-      <!-- 3. 分類 & 帳戶併排 -->
       <div class="form-row">
         <div class="field"><label>分類</label><select id="category"></select></div>
         <div class="field">
@@ -402,10 +463,8 @@ h1 { font-size: 25px; margin: 0; }
         </div>
       </div>
 
-      <!-- 4. 日期 -->
       <div class="field"><label>日期</label><input id="date" type="date" required></div>
 
-      <!-- 5. 備註 -->
       <div class="field">
         <label>備註</label>
         <input id="note" maxlength="60" placeholder="">
@@ -419,7 +478,6 @@ h1 { font-size: 25px; margin: 0; }
   </div>
 </div>
 
-<!-- 刪除確認 Modal -->
 <div class="modal" id="confirmModal" onclick="if(event.target===this)closeConfirmModal()">
   <div class="dialog" style="max-width: 400px;">
     <h2>確認刪除</h2>
@@ -436,10 +494,21 @@ const cats = {
   expense: [["🍔","飲食"],["🚇","交通"],["🛍️","購物"],["🏠","生活"],["🎮","娛樂"],["💊","醫療"],["📚","學習"],["📦","其他"]],
   income: [["💰","薪資"],["🎁","獎金"],["📈","投資"],["💵","其他收入"]]
 };
+
+const catColors = {
+  "飲食": "#e95c68",
+  "交通": "#2aa6b8",
+  "購物": "#7c5cff",
+  "生活": "#f59e0b",
+  "娛樂": "#5b67f1",
+  "醫療": "#16a673",
+  "學習": "#9b59b6",
+  "其他": "#778196"
+};
+
 const accountList = ["現金","信用卡"];
 let type = "expense", editId = null, deleteTargetId = null;
 
-// 取得本地 YYYY-MM-DD 日期字串（避免 UTC 時區偏差）
 function getLocalDateStr(d = new Date()) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -447,7 +516,6 @@ function getLocalDateStr(d = new Date()) {
   return `${y}-${m}-${day}`;
 }
 
-// 取得本地 YYYY-MM 月份字串
 function ym(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -456,7 +524,6 @@ function ym(d) {
 
 const money = n => "$" + Number(n).toLocaleString("zh-TW");
 
-// 初始化示範資料
 let data = JSON.parse(localStorage.getItem("money_book") || "null");
 if (!data || data.length === 0) {
   const today = getLocalDateStr();
@@ -581,7 +648,6 @@ function saveTx(e) {
     data.push(obj);
   }
 
-  // 自動切換當前檢視月份至新增紀錄的月份，確保新增後看得到
   if (txDate) {
     const [y, m] = txDate.split('-').map(Number);
     if (y && m) {
@@ -668,15 +734,14 @@ function render() {
   const txContainer = document.getElementById("transactions");
   txContainer.innerHTML = list.length ? list.map(x => {
     const mainTitle = esc(x.item || x.note || x.category);
-    const hasNote = x.note && x.note !== x.item;
-    const noteHtml = hasNote ? `<div class="tx-note">備註：${esc(x.note)}</div>` : '';
+    const subNote = x.note && x.note !== x.item ? `<div class="tx-note">備註：${esc(x.note)}</div>` : '';
     return `
       <div class="tx">
         <div class="icon">${iconFor(x.category)}</div>
         <div class="tx-main">
           <div class="tx-title">${mainTitle}</div>
           <div class="tx-meta">${x.category} · ${x.date} · ${x.account || "現金"}</div>
-          ${noteHtml}
+          ${subNote}
         </div>
         <div class="amount ${x.type === "income" ? "plus" : "minus"}">
           ${x.type === "income" ? "+" : "−"}${money(x.amount).slice(1)}
@@ -693,8 +758,50 @@ function render() {
   renderBars();
 }
 
-function renderPie(month) {
+function getSectorPath(cx, cy, rOut, rIn, startDeg, endDeg) {
+  const rad = deg => (deg - 90) * Math.PI / 180;
+  const x1 = cx + rOut * Math.cos(rad(startDeg));
+  const y1 = cy + rOut * Math.sin(rad(startDeg));
+  const x2 = cx + rOut * Math.cos(rad(endDeg));
+  const y2 = cy + rOut * Math.sin(rad(endDeg));
+
+  const x3 = cx + rIn * Math.cos(rad(endDeg));
+  const y3 = cy + rIn * Math.sin(rad(endDeg));
+  const x4 = cx + rIn * Math.cos(rad(startDeg));
+  const y4 = cy + rIn * Math.sin(rad(startDeg));
+
+  const largeArc = (endDeg - startDeg) > 180 ? 1 : 0;
+
+  return `M ${x1} ${y1} A ${rOut} ${rOut} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${rIn} ${rIn} 0 ${largeArc} 0 ${x4} ${y4} Z`;
+}
+
+/* 懸浮提示框控制函式 */
+function showTooltip(e, cat, val, pct) {
+  const tooltip = document.getElementById("pieTooltip");
+  if (!tooltip) return;
+  tooltip.innerHTML = `<div>${iconFor(cat)} ${cat}</div><div style="font-size:14px; opacity:0.85; margin-top:2px;">${money(val)} (${pct}%)</div>`;
+  tooltip.classList.add("show");
+  moveTooltip(e);
+}
+
+function moveTooltip(e) {
+  const tooltip = document.getElementById("pieTooltip");
   const pie = document.getElementById("pie");
+  if (!tooltip || !pie) return;
+  const rect = pie.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  tooltip.style.left = `${x}px`;
+  tooltip.style.top = `${y}px`;
+}
+
+function hideTooltip() {
+  const tooltip = document.getElementById("pieTooltip");
+  if (tooltip) tooltip.classList.remove("show");
+}
+
+function renderPie(month) {
+  const pieSvg = document.getElementById("pieSvg");
   const pieTotal = document.getElementById("pieTotal");
   const legend = document.getElementById("legend");
 
@@ -707,37 +814,45 @@ function renderPie(month) {
   const palette = ["#5b67f1", "#7c5cff", "#16a673", "#e95c68", "#f59e0b", "#2aa6b8", "#9b59b6", "#778196"];
 
   if (!total) {
-    pie.style.background = "#e9edf3";
+    pieSvg.innerHTML = '<circle cx="180" cy="180" r="138" fill="none" stroke="#e9edf3" stroke-width="80" />';
     legend.innerHTML = '<div class="empty" style="padding:5px">本月還沒有支出</div>';
+    hideTooltip();
     return;
   }
 
-  let cur = 0;
-  const borderDeg = 1.5;
-  const parts = [];
+  let pathsHtml = "";
 
   if (rows.length === 1) {
-    parts.push(`${palette[0]} 0deg 360deg`);
+    const singleColor = catColors[rows[0][0]] || palette[0];
+    pathsHtml = `<circle class="pie-slice" cx="180" cy="180" r="138" fill="none" stroke="${singleColor}" stroke-width="80" onmouseenter="showTooltip(event, '${esc(rows[0][0])}', ${rows[0][1]}, 100)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
   } else {
-    rows.forEach(([, v], i) => {
-      const startDeg = (cur / total) * 360;
-      cur += v;
-      const endDeg = (cur / total) * 360;
-      const color = palette[i % palette.length];
+    let currentDeg = 0;
+    rows.forEach(([c, v], i) => {
+      const p = v / total;
+      const deg = p * 360;
+      const startDeg = currentDeg;
+      const endDeg = currentDeg + deg;
+      currentDeg = endDeg;
 
-      parts.push(`${color} ${(startDeg + borderDeg / 2).toFixed(2)}deg ${(endDeg - borderDeg / 2).toFixed(2)}deg`);
-      parts.push(`#ffffff ${(endDeg - borderDeg / 2).toFixed(2)}deg ${(endDeg + borderDeg / 2).toFixed(2)}deg`);
+      const color = catColors[c] || palette[i % palette.length];
+      const pathD = getSectorPath(180, 180, 178, 98, startDeg, endDeg);
+      const pct = Math.round(p * 100);
+
+      pathsHtml += `<path class="pie-slice" d="${pathD}" fill="${color}" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" onmouseenter="showTooltip(event, '${esc(c)}', ${v}, ${pct})" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
     });
   }
 
-  pie.style.background = `conic-gradient(${parts.join(",")})`;
-  legend.innerHTML = rows.map(([c, v], i) => `
-    <div class="legend-row">
-      <i class="dot" style="background:${palette[i % palette.length]}"></i>
-      <span>${iconFor(c)} ${c}</span>
-      <span class="val">${money(v)} · ${Math.round(v / total * 100)}%</span>
-    </div>
-  `).join("");
+  pieSvg.innerHTML = pathsHtml;
+  legend.innerHTML = rows.map(([c, v], i) => {
+    const color = catColors[c] || palette[i % palette.length];
+    return `
+      <div class="legend-row">
+        <i class="dot" style="background:${color}"></i>
+        <span>${iconFor(c)} ${c}</span>
+        <span class="val">${money(v)} · ${Math.round(v / total * 100)}%</span>
+      </div>
+    `;
+  }).join("");
 }
 
 function renderBars() {
@@ -763,6 +878,93 @@ function renderBars() {
 
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+}
+
+function selectCategoryFromPie(cat) {
+  const filterCat = document.getElementById("filterCat");
+  const filterType = document.getElementById("filterType");
+  
+  if (filterCat.value === cat) {
+    filterCat.value = "all";
+  } else {
+    filterCat.value = cat;
+    if (filterType.value === "income") {
+      filterType.value = "all";
+    }
+  }
+  render();
+
+  if (window.innerWidth <= 800) {
+    const txSection = document.getElementById("transactions");
+    if (txSection) txSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderPie(month) {
+  const pieSvg = document.getElementById("pieSvg");
+  const pieTotal = document.getElementById("pieTotal");
+  const legend = document.getElementById("legend");
+  const currentSelectedCat = document.getElementById("filterCat").value;
+
+  const sums = {};
+  month.filter(x => x.type === "expense").forEach(x => sums[x.category] = (sums[x.category] || 0) + x.amount);
+  const rows = Object.entries(sums).sort((a, b) => b[1] - a[1]);
+  const total = rows.reduce((a, x) => a + x[1], 0);
+
+  if (currentSelectedCat !== "all" && sums[currentSelectedCat] !== undefined) {
+    pieTotal.innerHTML = `<span style="font-size:15px; color:var(--primary); font-weight:800;">${iconFor(currentSelectedCat)} ${esc(currentSelectedCat)}</span><b style="font-size:24px; margin-top:2px;">${money(sums[currentSelectedCat])}</b>`;
+  } else {
+    pieTotal.innerHTML = `<span>本月支出</span><b>${money(total)}</b>`;
+  }
+
+  const palette = ["#5b67f1", "#7c5cff", "#16a673", "#e95c68", "#f59e0b", "#2aa6b8", "#9b59b6", "#778196"];
+
+  if (!total) {
+    pieSvg.innerHTML = '<circle cx="180" cy="180" r="138" fill="none" stroke="#e9edf3" stroke-width="80" />';
+    legend.innerHTML = '<div class="empty" style="padding:5px">本月還沒有支出</div>';
+    hideTooltip();
+    return;
+  }
+
+  let pathsHtml = "";
+
+  if (rows.length === 1) {
+    const singleColor = catColors[rows[0][0]] || palette[0];
+    const isSel = currentSelectedCat === rows[0][0];
+    const sliceClass = "pie-slice" + (currentSelectedCat !== "all" ? (isSel ? " selected" : " dimmed") : "");
+    pathsHtml = `<circle class="${sliceClass}" cx="180" cy="180" r="138" fill="none" stroke="${singleColor}" stroke-width="80" onclick="selectCategoryFromPie('${esc(rows[0][0])}')" onmouseenter="showTooltip(event, '${esc(rows[0][0])}', ${rows[0][1]}, 100)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
+  } else {
+    let currentDeg = 0;
+    rows.forEach(([c, v], i) => {
+      const p = v / total;
+      const deg = p * 360;
+      const startDeg = currentDeg;
+      const endDeg = currentDeg + deg;
+      currentDeg = endDeg;
+
+      const color = catColors[c] || palette[i % palette.length];
+      const pathD = getSectorPath(180, 180, 178, 98, startDeg, endDeg);
+      const pct = Math.round(p * 100);
+      const isSel = currentSelectedCat === c;
+      const isAnySel = currentSelectedCat !== "all";
+      const sliceClass = "pie-slice" + (isAnySel ? (isSel ? " selected" : " dimmed") : "");
+
+      pathsHtml += `<path class="${sliceClass}" d="${pathD}" fill="${color}" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" onclick="selectCategoryFromPie('${esc(c)}')" onmouseenter="showTooltip(event, '${esc(c)}', ${v}, ${pct})" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
+    });
+  }
+
+  pieSvg.innerHTML = pathsHtml;
+  legend.innerHTML = rows.map(([c, v], i) => {
+    const color = catColors[c] || palette[i % palette.length];
+    const isSel = currentSelectedCat === c;
+    return `
+      <div class="legend-row ${isSel ? 'selected' : ''}" onclick="selectCategoryFromPie('${esc(c)}')">
+        <i class="dot" style="background:${color}"></i>
+        <span>${iconFor(c)} ${c}</span>
+        <span class="val">${money(v)} · ${Math.round(v / total * 100)}%</span>
+      </div>
+    `;
+  }).join("");
 }
 
 fillCats();
