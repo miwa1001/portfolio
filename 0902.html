@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -44,13 +43,13 @@ header {
 .logo {
   width: 46px;
   height: 46px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--primary), var(--primary2));
-  color: white;
   display: grid;
   place-items: center;
-  font-size: 25px;
-  box-shadow: 0 8px 20px rgba(91, 103, 241, 0.2);
+}
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 h1 { font-size: 25px; margin: 0; }
 .primary {
@@ -356,7 +355,9 @@ h1 { font-size: 25px; margin: 0; }
 <div class="app">
   <header>
     <div class="brand">
-      <div class="logo">₿</div>
+      <div class="logo">
+        <img src="https://miwa1001.github.io/desktoppet/animal_usagi.png" alt="Usagi Logo" onerror="this.onerror=null; this.src='https://placehold.co/46x46/5b67f1/ffffff?text=🐰';">
+      </div>
       <div>
         <h1>我的記帳本</h1>
       </div>
@@ -409,7 +410,10 @@ h1 { font-size: 25px; margin: 0; }
         <div class="chartbox" style="flex: 1;">
           <div class="pie" id="pie">
             <svg id="pieSvg" viewBox="0 0 360 360" style="width: 100%; height: 100%; display: block; overflow: visible;"></svg>
-            <div class="pie-center"><span>本月支出</span><b id="pieTotal">$0</b></div>
+            <div class="pie-center" id="pieCenter">
+              <span>本月支出</span>
+              <b>$0</b>
+            </div>
             <!-- 懸浮提示視窗 -->
             <div class="pie-tooltip" id="pieTooltip"></div>
           </div>
@@ -685,6 +689,26 @@ function changeMonth(n) {
   render();
 }
 
+function selectCategoryFromPie(cat) {
+  const filterCat = document.getElementById("filterCat");
+  const filterType = document.getElementById("filterType");
+  
+  if (filterCat.value === cat) {
+    filterCat.value = "all";
+  } else {
+    filterCat.value = cat;
+    if (filterType.value === "income") {
+      filterType.value = "all";
+    }
+  }
+  render();
+
+  if (window.innerWidth <= 800) {
+    const txSection = document.getElementById("transactions");
+    if (txSection) txSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function render() {
   const m = ym(viewMonth);
   const month = data.filter(x => x.date && x.date.startsWith(m));
@@ -775,7 +799,6 @@ function getSectorPath(cx, cy, rOut, rIn, startDeg, endDeg) {
   return `M ${x1} ${y1} A ${rOut} ${rOut} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${rIn} ${rIn} 0 ${largeArc} 0 ${x4} ${y4} Z`;
 }
 
-/* 懸浮提示框控制函式 */
 function showTooltip(e, cat, val, pct) {
   const tooltip = document.getElementById("pieTooltip");
   if (!tooltip) return;
@@ -802,107 +825,7 @@ function hideTooltip() {
 
 function renderPie(month) {
   const pieSvg = document.getElementById("pieSvg");
-  const pieTotal = document.getElementById("pieTotal");
-  const legend = document.getElementById("legend");
-
-  const sums = {};
-  month.filter(x => x.type === "expense").forEach(x => sums[x.category] = (sums[x.category] || 0) + x.amount);
-  const rows = Object.entries(sums).sort((a, b) => b[1] - a[1]);
-  const total = rows.reduce((a, x) => a + x[1], 0);
-  pieTotal.textContent = money(total);
-
-  const palette = ["#5b67f1", "#7c5cff", "#16a673", "#e95c68", "#f59e0b", "#2aa6b8", "#9b59b6", "#778196"];
-
-  if (!total) {
-    pieSvg.innerHTML = '<circle cx="180" cy="180" r="138" fill="none" stroke="#e9edf3" stroke-width="80" />';
-    legend.innerHTML = '<div class="empty" style="padding:5px">本月還沒有支出</div>';
-    hideTooltip();
-    return;
-  }
-
-  let pathsHtml = "";
-
-  if (rows.length === 1) {
-    const singleColor = catColors[rows[0][0]] || palette[0];
-    pathsHtml = `<circle class="pie-slice" cx="180" cy="180" r="138" fill="none" stroke="${singleColor}" stroke-width="80" onmouseenter="showTooltip(event, '${esc(rows[0][0])}', ${rows[0][1]}, 100)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
-  } else {
-    let currentDeg = 0;
-    rows.forEach(([c, v], i) => {
-      const p = v / total;
-      const deg = p * 360;
-      const startDeg = currentDeg;
-      const endDeg = currentDeg + deg;
-      currentDeg = endDeg;
-
-      const color = catColors[c] || palette[i % palette.length];
-      const pathD = getSectorPath(180, 180, 178, 98, startDeg, endDeg);
-      const pct = Math.round(p * 100);
-
-      pathsHtml += `<path class="pie-slice" d="${pathD}" fill="${color}" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" onmouseenter="showTooltip(event, '${esc(c)}', ${v}, ${pct})" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()" />`;
-    });
-  }
-
-  pieSvg.innerHTML = pathsHtml;
-  legend.innerHTML = rows.map(([c, v], i) => {
-    const color = catColors[c] || palette[i % palette.length];
-    return `
-      <div class="legend-row">
-        <i class="dot" style="background:${color}"></i>
-        <span>${iconFor(c)} ${c}</span>
-        <span class="val">${money(v)} · ${Math.round(v / total * 100)}%</span>
-      </div>
-    `;
-  }).join("");
-}
-
-function renderBars() {
-  const bars = document.getElementById("bars");
-  const d = [];
-  for (let i = 6; i >= 0; i--) {
-    const dt = new Date();
-    dt.setDate(dt.getDate() - i);
-    const s = getLocalDateStr(dt);
-    d.push({
-      n: dt.getDate(),
-      v: data.filter(x => x.date === s && x.type === "expense").reduce((a, x) => a + x.amount, 0)
-    });
-  }
-  const max = Math.max(...d.map(x => x.v), 1);
-  bars.innerHTML = d.map(x => `
-    <div class="bar-wrap" title="${money(x.v)}">
-      <div class="bar" style="height:${Math.max(4, x.v / max * 170)}px"></div>
-      <div class="bar-label">${x.n}日</div>
-    </div>
-  `).join("");
-}
-
-function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
-}
-
-function selectCategoryFromPie(cat) {
-  const filterCat = document.getElementById("filterCat");
-  const filterType = document.getElementById("filterType");
-  
-  if (filterCat.value === cat) {
-    filterCat.value = "all";
-  } else {
-    filterCat.value = cat;
-    if (filterType.value === "income") {
-      filterType.value = "all";
-    }
-  }
-  render();
-
-  if (window.innerWidth <= 800) {
-    const txSection = document.getElementById("transactions");
-    if (txSection) txSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
-
-function renderPie(month) {
-  const pieSvg = document.getElementById("pieSvg");
-  const pieTotal = document.getElementById("pieTotal");
+  const pieCenter = document.getElementById("pieCenter");
   const legend = document.getElementById("legend");
   const currentSelectedCat = document.getElementById("filterCat").value;
 
@@ -912,9 +835,9 @@ function renderPie(month) {
   const total = rows.reduce((a, x) => a + x[1], 0);
 
   if (currentSelectedCat !== "all" && sums[currentSelectedCat] !== undefined) {
-    pieTotal.innerHTML = `<span style="font-size:15px; color:var(--primary); font-weight:800;">${iconFor(currentSelectedCat)} ${esc(currentSelectedCat)}</span><b style="font-size:24px; margin-top:2px;">${money(sums[currentSelectedCat])}</b>`;
+    pieCenter.innerHTML = `<span style="font-size:15px; color:var(--primary); font-weight:800;">${iconFor(currentSelectedCat)} ${esc(currentSelectedCat)}</span><b style="font-size:24px; margin-top:2px;">${money(sums[currentSelectedCat])}</b>`;
   } else {
-    pieTotal.innerHTML = `<span>本月支出</span><b>${money(total)}</b>`;
+    pieCenter.innerHTML = `<span>本月支出</span><b>${money(total)}</b>`;
   }
 
   const palette = ["#5b67f1", "#7c5cff", "#16a673", "#e95c68", "#f59e0b", "#2aa6b8", "#9b59b6", "#778196"];
@@ -965,6 +888,31 @@ function renderPie(month) {
       </div>
     `;
   }).join("");
+}
+
+function renderBars() {
+  const bars = document.getElementById("bars");
+  const d = [];
+  for (let i = 6; i >= 0; i--) {
+    const dt = new Date();
+    dt.setDate(dt.getDate() - i);
+    const s = getLocalDateStr(dt);
+    d.push({
+      n: dt.getDate(),
+      v: data.filter(x => x.date === s && x.type === "expense").reduce((a, x) => a + x.amount, 0)
+    });
+  }
+  const max = Math.max(...d.map(x => x.v), 1);
+  bars.innerHTML = d.map(x => `
+    <div class="bar-wrap" title="${money(x.v)}">
+      <div class="bar" style="height:${Math.max(4, x.v / max * 170)}px"></div>
+      <div class="bar-label">${x.n}日</div>
+    </div>
+  `).join("");
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 }
 
 fillCats();
